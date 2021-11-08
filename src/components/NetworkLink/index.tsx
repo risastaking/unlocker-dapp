@@ -20,11 +20,11 @@ const NetworkLink = ({ to, children, ...rest }: NetworkLinkType) => {
   }
 
   const props = {
-    to: explorerAddress ? `/${explorerAddress}${to}` : to,
+    to: explorerAddress ? `${explorerAddress}${to}` : to,
     ...rest,
   };
-
-  return <Link {...props}>{children}</Link>;
+debugger
+  return <a  target="_blank" href={props.to} rel="noopener noreferrer"  {...props}>{children}</a>;
 };
 
 export default NetworkLink;

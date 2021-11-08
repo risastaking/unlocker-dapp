@@ -6,6 +6,7 @@ import Denominate from "/src/components/Denominate";
 import { TransactionType } from "context/state";
 import StatusIcon from "./StatusIcon";
 import txStatus from "./txStatus";
+import OperationsList from './OperationsList';
 
 function sortByDate(a: TransactionType, b: TransactionType) {
   if (a.timestamp < b.timestamp) {
@@ -37,20 +38,21 @@ const TransactionList = ({
   const sortedTransactions: TransactionType[] = (
     [
       ...transactions,
-      ...(doubleOwnTransactions.length > 0 ? doubleOwnTransactions : []),
+      //...(doubleOwnTransactions.length > 0 ? doubleOwnTransactions : []),
     ].filter((el: any) => el !== undefined) as any
   ).sort(sortByDate);
 
   return (
     <div className="p-3 mt-3">
-      <h4 className="mb-3 font-weight-normal">Smart Contract Transactions</h4>
+      <h4 className="mb-3 font-weight-normal">Recent Transactions</h4>
       <div className="table-responsive">
         <table className="transactions table pb-3">
           <thead>
             <tr className="bg-light">
               <th className="border-0 font-weight-normal"></th>
-              <th className="border-0 font-weight-normal">Tx hash</th>
+              {/* <th className="border-0 font-weight-normal">Tx hash</th> */}
               <th className="border-0 font-weight-normal">Date</th>
+              <th className="border-0 font-weight-normal">Token Operations</th>
             </tr>
           </thead>
           <tbody data-testid="transactionsList">
@@ -69,7 +71,7 @@ const TransactionList = ({
                       />
                     </div>
                   </td>
-                  <td className="transaction-hash">
+                  {/* <td className="transaction-hash">
                     <a
                       href={`${explorerAddress}transactions/${tx.txHash}`}
                       {...{
@@ -79,9 +81,26 @@ const TransactionList = ({
                     >
                       <Ui.Trim data-testid="txHash" text={tx.txHash} />
                     </a>
+                  </td> */}
+                  <td>
+                    {moment.unix(tx.timestamp).format("MMM Do, h:mm A")}
                   </td>
                   <td>
-                    {moment.unix(tx.timestamp).format("MMMM Do YYYY, h:mm A")}
+                    {tx.operations ?
+                      <OperationsList operations={tx.operations}></OperationsList>
+                      : (atob(tx.data).split("@")[0])
+                    }
+
+                    <div className="mr-2 text-nowrap">Tx Hash:</div>
+                    <a
+                        href={`${explorerAddress}/transactions/${tx.txHash}`}
+                        {...{
+                          target: "_blank",
+                        }}
+                        title="View in Explorer"
+                      >
+                        <Ui.Trim data-testid="txHash" text={tx.txHash} />
+                      </a>
                   </td>
                 </tr>
               );

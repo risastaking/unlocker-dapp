@@ -61,11 +61,9 @@ const OperationReceiver = ({
       {action && <FontAwesomeIcon icon={faCaretRight} size="xs" className="text-secondary mr-2" />}
       <div className="mr-2 text-nowrap">{action ? `${action} to ` : 'To'}</div>
       {addressIsBech32(operation.sender) ? (
-        <>
           <NetworkLink to={urlBuilder.accountDetails(operation.receiver)} className="trim-wrapper">
             <Trim text={operation.receiver} color="secondary" />
           </NetworkLink>
-        </>
       ) : (
         ''
       )}
@@ -107,7 +105,7 @@ const OperationsList = ({ operations }: { operations: OperationType[] }) => {
 
   return (
     <div className="operations-list d-flex flex-column mb-n2">
-      {operations.map((operation: OperationType, i) => {
+      {operations?.map((operation: OperationType, i) => {
         return (
           <div key={i} className="detailed-item d-flex row mb-3 mb-xl-2">
             <OperationText operation={operation} />
