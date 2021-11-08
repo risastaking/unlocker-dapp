@@ -10,7 +10,9 @@ import {
   BytesValue,
   SmartContract,
   U32Value,
-  GasLimit
+  GasLimit,
+  ProxyProvider,
+  NetworkConfig
 } from "@elrondnetwork/erdjs";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -20,8 +22,11 @@ import { RawTransactionType } from "helpers/types";
 import { routeNames } from "../../../routes";
 import useNewTransaction from "../../Transaction/useNewTransaction";
 import { useContext } from "../../../context";
+import denominate from "../../../components/Denominate/denominate";
+import { ReactEventHandler, SyntheticEvent, useState } from "react";
+import { NftType } from "components/NftBlock";
 
-const getTxFieldsForEsdtNftTransfer = (tokenIdentifier: string, nonce: string,
+const getTxFieldsForEsdtNftTransfer = (tokenIdentifier: string, nonce: number,
   amount: string, contractAddress: Address, functionName: string): { value: string, gasLimit: number, data: string } => {
   const encodedAmount = new BigNumber(amount, 10).toString(16);
   const encodedTokenId = tokenIdentifier.split("")
@@ -31,8 +36,9 @@ const getTxFieldsForEsdtNftTransfer = (tokenIdentifier: string, nonce: string,
   const encodedFunctionName = functionName.split("")
     .map(c => c.charCodeAt(0).toString(16).padStart(2, "0"))
     .join("")
+  const encodedNonce = nonce.toString(16)
   const txDataField = ["ESDTNFTTransfer", encodedTokenId,
-    nonce, encodedAmount, encodedContractAddress, encodedFunctionName].join("@");
+  encodedNonce, encodedAmount, encodedContractAddress, encodedFunctionName].join("@");
 
   return {
     value: "0",
@@ -46,44 +52,92 @@ const Actions = () => {
   const sendTransaction = Dapp.useSendTransaction();
   const { address, dapp } = Dapp.useContext();
   const newTransaction = useNewTransaction();
-  const [result, setResult] = React.useState<string>();
+  const [fee, setFee] = React.useState<number>();
+  const [selectedToken, setSelectedToken] = useState<NftType>();
 
-  const send = (transaction: RawTransactionType) => (e: React.MouseEvent) => {
+  const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
+    debugger
+    setSelectedToken(nftBalance.find(t => t.identifier === e.currentTarget.value))
+
+  };
+  const handleSubmit  = (e: React.MouseEvent) => {
+    debugger
     e.preventDefault();
+    selectedToken ?
+      send(createTransaction(selectedToken, "15000000000000000000")) :
+      () => null
+
+  }
+  const send = (transaction: RawTransactionType) => {
     sendTransaction({
       transaction: newTransaction(transaction),
       callbackRoute: routeNames.transaction,
     });
   };
 
-  const sendLKMEXTransaction: RawTransactionType = {
+  const createTransaction = (token: NftType, amount: string): RawTransactionType => ({
     receiver: address,
-    ...getTxFieldsForEsdtNftTransfer(fromToken, "467e", "15000000000000000000", new Address(contractAddress), "swap")
-  };
-  // utility functions
+    ...getTxFieldsForEsdtNftTransfer(token.ticker, token.nonce,
+      amount, new Address(contractAddress), "swap")
+  });
 
-  // let contract = new SmartContract({ address: new Address("erd1qqqqqqqqqqqqqpgqjlsjj5eat33z2r56nm456e75g8kt2unv3xaqwk2qdu") });
-  // let callTransactionOne = contract.call({
-  //   func: new ContractFunction("swap"),
-  //   args: [new U32Value(5), BytesValue.fromHex("0123")],
-  //   gasLimit: new GasLimit(150000)
-  // });
+  // utility functions
+  let contract = new SmartContract({ address: new Address(contractAddress) });
+  React.useEffect(() => {
+    const fetchFee = async () => {
+      let response = await contract.runQuery(dapp.proxy, {
+        func: new ContractFunction("getFee"),
+        args: []
+      });
+      let fee_bytes = Buffer.from(response.returnData[0], 'base64')
+      let fee_int = parseInt(fee_bytes.toString("hex"), 16)
+      console.log(fee_int)
+      setFee(fee_int)
+    }
+    fetchFee()
+  }, [])
 
 
   return (
 
-      <div className="d-flex mt-4 justify-content-center">
+    <div className="d-flex mt-4 justify-content-center">
 
-      <input type="number" step="1" id="amount-to-swap" />
-      <div className="action-btn" onClick={send(sendLKMEXTransaction)}>
-              <button className="btn">
-                <FontAwesomeIcon icon={faArrowUp} className="text-primary" />
-              </button>
-              <a href="/" className="text-white text-decoration-none">
-                Send LKMEX
-              </a>
-            </div>
+      <input type="number" placeholder="Amount" step="1" id="amount-to-swap" />
+
+      <select onChange={handleTokenSelect}>
+
+        <option>Select...</option>
+        {nftBalance?.filter(t => t.ticker === fromToken).map(t =>
+          <option key={t.identifier} value={t.identifier} >
+            {t.identifier} - {
+              denominate({
+                input: t.balance || '',
+                denomination: t.decimals || 0,
+                decimals: 2,
+                showLastNonZeroDecimal: false
+              })
+            }
+          </option>
+        )}
+      </select>
+
+
+      <div className="action-btn" onClick={handleSubmit}>
+        <button className="btn">
+          <FontAwesomeIcon icon={faArrowUp} className="text-primary" />
+        </button>
+        <a href="/" className="text-white text-decoration-none">
+          Send LKMEX
+        </a>
       </div>
+      <div className="light-bg">Fee: {
+        denominate({
+          input: fee?.toString() || '',
+          denomination: 2,
+          decimals: 2,
+          showLastNonZeroDecimal: true
+        })}%</div>
+    </div >
   );
 };
 

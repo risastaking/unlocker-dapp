@@ -10,8 +10,6 @@ const TopInfo = () => {
     account: { balance }
   } = Dapp.useContext();
 
-  const { nftBalance } = useContext();
-
   return (
     <div className="text-white" data-testid="topInfo">
       <div className="mb-1">
@@ -25,19 +23,6 @@ const TopInfo = () => {
       <div>
         <h3 className="py-2">
         </h3>
-        <select>
-          {nftBalance?.filter(t => t.ticker === fromToken).map(t =>
-            <option key={t.identifier} >
-              {t.identifier} - {
-                denominate({
-                  input: t.balance,
-                  denomination: t.decimals,
-                  decimals: 2
-                })
-              }
-            </option>
-          )}
-        </select>
       </div>
     </div>
   );

@@ -23,7 +23,6 @@ const NetworkLink = ({ to, children, ...rest }: NetworkLinkType) => {
     to: explorerAddress ? `${explorerAddress}${to}` : to,
     ...rest,
   };
-debugger
   return <a  target="_blank" href={props.to} rel="noopener noreferrer"  {...props}>{children}</a>;
 };
 

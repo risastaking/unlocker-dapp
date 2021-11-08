@@ -35,7 +35,7 @@ export interface NftType {
   assets?: {
     svgUrl: string;
   }
-  ticker?: string;
+  ticker: string;
 }
 
 const NftBlock = (props: NftBlockType) => {
