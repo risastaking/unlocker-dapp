@@ -3,11 +3,6 @@ import * as Dapp from "@elrondnetwork/dapp";
 import { Navbar as BsNavbar, NavItem, Nav } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import LKMexIcon from "../../../assets/img/lkmex.svg"
-
-const risasoftLogo = new URL(
-  '../../../assets/img/risasoft.jpg',
-  import.meta.url
-);
 import { dAppName } from "../../../config";
 
 const Navbar = () => {
