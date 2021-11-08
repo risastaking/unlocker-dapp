@@ -15,7 +15,7 @@ import {
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BigNumber } from "bignumber.js"
-import { contractAddress } from "../../../config";
+import { contractAddress, fromToken } from "../../../config";
 import { RawTransactionType } from "helpers/types";
 import { routeNames } from "../../../routes";
 import useNewTransaction from "../../Transaction/useNewTransaction";
@@ -58,7 +58,7 @@ const Actions = () => {
 
   const sendLKMEXTransaction: RawTransactionType = {
     receiver: address,
-    ...getTxFieldsForEsdtNftTransfer("LKMEX-cfa13d", "467e", "15000000000000000000", new Address(contractAddress), "swap")
+    ...getTxFieldsForEsdtNftTransfer(fromToken, "467e", "15000000000000000000", new Address(contractAddress), "swap")
   };
   // utility functions
 
@@ -71,7 +71,7 @@ const Actions = () => {
 
 
   return (
-    <>
+
       <div className="d-flex mt-4 justify-content-center">
 
       <input type="number" step="1" id="amount-to-swap" />
@@ -84,7 +84,6 @@ const Actions = () => {
               </a>
             </div>
       </div>
-    </>
   );
 };
 

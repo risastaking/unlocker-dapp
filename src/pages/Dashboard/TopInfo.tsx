@@ -33,8 +33,10 @@ const TopInfo = () => {
                   input: t.balance,
                   denomination: t.decimals,
                   decimals: 2
-                })}
-            </option>)}
+                })
+              }
+            </option>
+          )}
         </select>
       </div>
     </div>
