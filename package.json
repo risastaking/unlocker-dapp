@@ -36,7 +36,6 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@parcel/config-default": "^2.0.0",
-    "@parcel/transformer-svg-react": "^2.0.0",
     "@walletconnect/encoding": "^1.0.0",
     "axios": "0.24.0",
     "bfj": "^7.0.2",
@@ -76,6 +75,7 @@
   "devDependencies": {
     "@parcel/packager-raw-url": "^2.0.0",
     "@parcel/transformer-sass": "^2.0.0",
+    "@parcel/transformer-svg-react": "^2.0.0",
     "@parcel/transformer-webmanifest": "^2.0.0",
     "@testing-library/jest-dom": "5.11.4",
     "@testing-library/react": "11.1.0",
@@ -89,7 +89,7 @@
     "jest-circus": "26.6.0",
     "jest-resolve": "26.6.0",
     "jest-watch-typeahead": "0.6.1",
-    "parcel": "^2.0.0",
+    "parcel": "^2.0.0-nightly.903",
     "prettier": "2.3.2"
   },
   "jest": {

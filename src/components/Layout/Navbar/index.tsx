@@ -2,8 +2,12 @@ import React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
 import { Navbar as BsNavbar, NavItem, Nav } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
+import LKMexIcon from "../../../assets/img/lkmex.svg"
 
-import ElrondLogo  from "../../../assets/img/elrond.svg";
+const risasoftLogo = new URL(
+  '../../../assets/img/risasoft.jpg',
+  import.meta.url
+);
 import { dAppName } from "../../../config";
 
 const Navbar = () => {
@@ -13,8 +17,8 @@ const Navbar = () => {
 
   const logOut = (e: React.MouseEvent) => {
     e.preventDefault();
-    dappLogout({ callbackUrl: `${window.location.origin}/` });
-    history.push("/");
+    dappLogout({ callbackUrl: `${window.location.origin}/unlocker` });
+    history.push("/unlocker");
   };
 
   return (
@@ -24,7 +28,7 @@ const Navbar = () => {
           className="d-flex align-items-center navbar-brand mr-0"
           to={loggedIn ? "/dashboard" : "/"}
         >
-          <ElrondLogo className="elrond-logo" />
+          <LKMexIcon className="token-icon-large" />
           <span className="dapp-name text-muted">{dAppName}</span>
         </Link>
 

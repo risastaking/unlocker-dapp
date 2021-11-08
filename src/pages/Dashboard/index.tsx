@@ -26,7 +26,7 @@ const Dashboard = () => {
       dispatch({
         type: "setTransactions",
         transactions: data,
-        transactionsFetched: false,
+        transactionsFetched: undefined,
       });
       for (const t of data) {
         getTransaction({

@@ -60,10 +60,6 @@ html {
 
 /* Navbar
 -------------------------------------------------- */
-.elrond-logo {
-  width: 85px;
-  height: 25px;
-}
 
 .dapp-name {
   line-height: 1;
@@ -94,9 +90,23 @@ html {
   }
 }
 
+.light-bg {
+  color: #f7f7f7;
+}
+.light-fg {
+  color: #1f43f6;
+  transform: scale(.5);
+}
+
 .token-icon {
+  vertical-align: top;
   width: 1.5rem;
   height: 1.5rem;
+}
+.token-icon-large {
+  vertical-align: top;
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .transactions {
