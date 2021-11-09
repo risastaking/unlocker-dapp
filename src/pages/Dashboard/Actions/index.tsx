@@ -4,84 +4,79 @@ import {
   Address,
   AddressValue,
   ContractFunction,
-  Query,
-  TransactionHash,
-  EsdtHelpers,
   BytesValue,
   SmartContract,
-  U32Value,
   GasLimit,
-  ProxyProvider,
-  NetworkConfig
+  TransactionPayload,
+  Transaction,
+  U64Value,
+  BigUIntValue
 } from "@elrondnetwork/erdjs";
-import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BigNumber } from "bignumber.js"
 import { contractAddress, fromToken } from "../../../config";
-import { RawTransactionType } from "helpers/types";
 import { routeNames } from "../../../routes";
-import useNewTransaction from "../../Transaction/useNewTransaction";
 import { useContext } from "../../../context";
 import denominate from "../../../components/Denominate/denominate";
-import { ReactEventHandler, SyntheticEvent, useState } from "react";
+import { SyntheticEvent, useState } from "react";
 import { NftType } from "components/NftBlock";
-
-const getTxFieldsForEsdtNftTransfer = (tokenIdentifier: string, nonce: number,
-  amount: string, contractAddress: Address, functionName: string): { value: string, gasLimit: number, data: string } => {
-  const encodedAmount = new BigNumber(amount, 10).toString(16);
-  const encodedTokenId = tokenIdentifier.split("")
-    .map(c => c.charCodeAt(0).toString(16).padStart(2, "0"))
-    .join("")
-  const encodedContractAddress = contractAddress.hex()
-  const encodedFunctionName = functionName.split("")
-    .map(c => c.charCodeAt(0).toString(16).padStart(2, "0"))
-    .join("")
-  const encodedNonce = nonce.toString(16)
-  const txDataField = ["ESDTNFTTransfer", encodedTokenId,
-  encodedNonce, encodedAmount, encodedContractAddress, encodedFunctionName].join("@");
-
-  return {
-    value: "0",
-    gasLimit: 5000000,
-    data: txDataField
-  };
-}
 
 const Actions = () => {
   const { nftBalance } = useContext();
   const sendTransaction = Dapp.useSendTransaction();
   const { address, dapp } = Dapp.useContext();
-  const newTransaction = useNewTransaction();
   const [fee, setFee] = React.useState<number>();
+  const [liquidity, setLiquidity] = React.useState<number>();
   const [selectedToken, setSelectedToken] = useState<NftType>();
+  const [amount, setAmount] = useState<string>('');
 
   const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
-    debugger
     setSelectedToken(nftBalance.find(t => t.identifier === e.currentTarget.value))
-
   };
-  const handleSubmit  = (e: React.MouseEvent) => {
+
+  const handleAmountChange = (e: SyntheticEvent<HTMLInputElement, Event>) => {
+    debugger
+    setAmount(e.currentTarget.value)
+  };
+
+  const handleSubmit = (e: React.MouseEvent) => {
     debugger
     e.preventDefault();
-    selectedToken ?
-      send(createTransaction(selectedToken, "15000000000000000000")) :
-      () => null
-
+    selectedToken && amount ?
+      send(buildTransaction(selectedToken, amount)) :
+      () => null // todo set error
   }
-  const send = (transaction: RawTransactionType) => {
+  const send = (transaction: Transaction) => {
     sendTransaction({
-      transaction: newTransaction(transaction),
+      transaction: transaction,
       callbackRoute: routeNames.transaction,
     });
   };
 
-  const createTransaction = (token: NftType, amount: string): RawTransactionType => ({
-    receiver: address,
-    ...getTxFieldsForEsdtNftTransfer(token.ticker, token.nonce,
-      amount, new Address(contractAddress), "swap")
-  });
+  const buildTransaction = (token: NftType, amount: string): Transaction => {
 
-  // utility functions
+    const amount_big = amount + `e+${token.decimals}`
+
+    const payload = TransactionPayload.contractCall()
+      .setFunction(new ContractFunction("ESDTNFTTransfer"))
+      .setArgs([
+        BytesValue.fromUTF8(token.ticker),
+        new U64Value(new BigNumber(token.nonce)),
+        new BigUIntValue(new BigNumber(amount_big)),
+        new AddressValue(new Address(contractAddress)),
+        BytesValue.fromUTF8("swap")
+      ])
+      .build();
+
+    return new Transaction({
+      receiver: new Address(address),
+      gasLimit: new GasLimit(5000000),
+      data: payload,
+    });
+
+  }
+
   let contract = new SmartContract({ address: new Address(contractAddress) });
   React.useEffect(() => {
     const fetchFee = async () => {
@@ -94,7 +89,21 @@ const Actions = () => {
       console.log(fee_int)
       setFee(fee_int)
     }
+    const fetchLiquidity = async () => {
+      let response = await contract.runQuery(dapp.proxy, {
+        func: new ContractFunction("getLiquidityBalance"),
+        args: []
+      });
+      debugger
+      let liquidity_bytes = Buffer.from(response.returnData[0], 'base64')
+      let liquidity = parseInt(liquidity_bytes.toString("hex"), 16)
+      console.log(liquidity)
+      setLiquidity(liquidity)
+    }
+
     fetchFee()
+
+    fetchLiquidity()
   }, [])
 
 
@@ -102,7 +111,7 @@ const Actions = () => {
 
     <div className="d-flex mt-4 justify-content-center">
 
-      <input type="number" placeholder="Amount" step="1" id="amount-to-swap" />
+      <input type="number" placeholder="Amount" step="1" onChange={handleAmountChange} id="amount-to-swap" />
 
       <select onChange={handleTokenSelect}>
 
@@ -130,6 +139,13 @@ const Actions = () => {
           Send LKMEX
         </a>
       </div>
+      <div className="light-bg">Liquidity: {
+        denominate({
+          input: liquidity?.toString() || '',
+          denomination: 18,
+          decimals: 2,
+          showLastNonZeroDecimal: true
+        })} MEX</div>
       <div className="light-bg">Fee: {
         denominate({
           input: fee?.toString() || '',
@@ -137,7 +153,7 @@ const Actions = () => {
           decimals: 2,
           showLastNonZeroDecimal: true
         })}%</div>
-    </div >
+    </div>
   );
 };
 
