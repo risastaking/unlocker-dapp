@@ -199,22 +199,22 @@ const Actions = () => {
             <h2 className="mb-3" data-testid="title">
               Available Liquidity
             </h2>
-            <p>{denominate({
+            <h4>{denominate({
               input: availableLiquidity?.toString() || '',
               denomination: 18,
               decimals: 2,
               showLastNonZeroDecimal: false
-            })} <MexIcon className="token-icon" />MEX</p>
+            })} <MexIcon className="token-icon-large" />MEX</h4>
 
             <h2 className="mb-3" data-testid="title">
               Unlock Fee
             </h2>
-            <p>{denominate({
+            <h3>{denominate({
               input: fee?.toString() || '',
               denomination: 2,
               decimals: 2,
               showLastNonZeroDecimal: true
-            })}%</p>
+            })}%</h3>
 
 
 

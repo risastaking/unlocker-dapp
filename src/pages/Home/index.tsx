@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
-import { dAppName } from "../../config";
+import * as Dapp from "@elrondnetwork/dapp";
 import { routeNames } from "../../routes";
 import MexIcon from "../../assets/img/mex.svg"
 import LKMexIcon from "../../assets/img/lkmex.svg"
@@ -9,8 +9,63 @@ import {
   faArrowDown
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  Address,
+  AddressValue,
+  ContractFunction,
+  BytesValue,
+  SmartContract,
+  GasLimit,
+  TransactionPayload,
+  Transaction,
+  U64Value,
+  BigUIntValue
+} from "@elrondnetwork/erdjs";
+import { BigNumber } from "bignumber.js"
+import denominate from "../../components/Denominate/denominate";
+import { contractAddress } from "../../config";
+
+const FEE_BASIS = new BigNumber(10000)
+const BIG_ZERO = new BigNumber(0)
+const BIG_ONE = new BigNumber(1)
 
 const Home = () => {
+
+  const [fee, setFee] = React.useState<BigNumber>(FEE_BASIS);
+  const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
+  const { address, dapp, explorerAddress } = Dapp.useContext();
+  const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable)
+
+  let contract = new SmartContract({ address: new Address(contractAddress) });
+  React.useEffect(() => {
+    const fetchFee = async () => {
+      let response = await contract.runQuery(dapp.proxy, {
+        func: new ContractFunction("getFee"),
+        args: []
+      });
+      let fee_bytes = Buffer.from(response.returnData[0], 'base64')
+      let fee_int = new BigNumber('0x' + fee_bytes.toString("hex"))
+      console.log(fee_int)
+      setFee(fee_int)
+    }
+    const fetchLiquidity = async () => {
+      let response = await contract.runQuery(dapp.proxy, {
+        func: new ContractFunction("getLiquidityBalance"),
+        args: []
+      });
+
+      let liquidity_bytes = Buffer.from(response.returnData[0], 'base64')
+      let liquidity = new BigNumber('0x' + liquidity_bytes.toString("hex"))
+      console.log(liquidity)
+      setLiquidity(liquidity)
+    }
+
+    fetchFee()
+
+    fetchLiquidity()
+  }, [])
+
   return (
     <div className="d-flex flex-fill align-items-center container">
       <div className="row w-100">
@@ -46,17 +101,25 @@ const Home = () => {
 
           <div className="card shadow-sm rounded p-4 border-0">
             <div className="card-body text-center">
-              <h2 className="mb-3" data-testid="title">
-                Available Liquidity
-              </h2>
-              <p>XXX.XX <MexIcon className="token-icon" />MEX</p>
+            <h2 className="mb-3" data-testid="title">
+              Available Liquidity
+            </h2>
+            <h4>{denominate({
+              input: availableLiquidity?.toString() || '',
+              denomination: 18,
+              decimals: 2,
+              showLastNonZeroDecimal: false
+            })} <MexIcon className="token-icon-large" />MEX</h4>
 
-              <h2 className="mb-3" data-testid="title">
-                Service Fee
-              </h2>
-              <p>20%</p>
-
-
+            <h2 className="mb-3" data-testid="title">
+              Unlock Fee
+            </h2>
+            <h3>{denominate({
+              input: fee?.toString() || '',
+              denomination: 2,
+              decimals: 2,
+              showLastNonZeroDecimal: true
+            })}%</h3>
 
             </div>
           </div>

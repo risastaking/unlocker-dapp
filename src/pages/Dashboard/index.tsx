@@ -7,7 +7,6 @@ import { contractAddress } from "../../config";
 import { useContext, useDispatch } from "../../context";
 import Actions from "./Actions";
 import { getNftBalance, getTransaction, getTransactions } from "./helpers/asyncRequests";
-import TopInfo from "./TopInfo";
 import Transactions from "./Transactions";
 
 const Dashboard = () => {
@@ -89,7 +88,6 @@ const Dashboard = () => {
             <div className="card-body p-1">
               <div className="card rounded border-0">
                 <div className="card-body text-center p-4">
-                  <TopInfo />
                   <Actions />
                 </div>
               </div>
