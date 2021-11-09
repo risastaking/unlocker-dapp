@@ -38,8 +38,8 @@ const routes: RouteType[] = [
 const wrappedRoutes = () =>
   routes.map((route) => {
     const title = route.title
-      ? `${route.title} • Elrond `
-      : `Elrond`;
+      ? `${route.title} • Unlock MEX `
+      : `Unlock MEX`;
     return {
       path: route.path,
       authenticatedRoute: Boolean(route.authenticatedRoute),
