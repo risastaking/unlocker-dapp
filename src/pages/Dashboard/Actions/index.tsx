@@ -22,28 +22,34 @@ import denominate from "../../../components/Denominate/denominate";
 import { SyntheticEvent, useState } from "react";
 import { NftType } from "components/NftBlock";
 
+const FEE_BASIS = new BigNumber(10000)
+const BIG_ZERO = new BigNumber(0)
+const BIG_ONE = new BigNumber(1)
+
 const Actions = () => {
   const { nftBalance } = useContext();
   const sendTransaction = Dapp.useSendTransaction();
   const { address, dapp } = Dapp.useContext();
-  const [fee, setFee] = React.useState<number>();
-  const [liquidity, setLiquidity] = React.useState<number>();
+  const [fee, setFee] = React.useState<BigNumber>(FEE_BASIS);
+  const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
   const [selectedToken, setSelectedToken] = useState<NftType>();
   const [amount, setAmount] = useState<string>('');
+  const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable)
 
   const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
     setSelectedToken(nftBalance.find(t => t.identifier === e.currentTarget.value))
   };
 
   const handleAmountChange = (e: SyntheticEvent<HTMLInputElement, Event>) => {
-    debugger
     setAmount(e.currentTarget.value)
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
-    debugger
+    const amount_big = new BigNumber(amount + `e+18`)
+
     e.preventDefault();
-    selectedToken && amount ?
+    selectedToken && amount && availableLiquidity.gte(amount_big) ?
       send(buildTransaction(selectedToken, amount)) :
       () => null // todo set error
   }
@@ -85,7 +91,7 @@ const Actions = () => {
         args: []
       });
       let fee_bytes = Buffer.from(response.returnData[0], 'base64')
-      let fee_int = parseInt(fee_bytes.toString("hex"), 16)
+      let fee_int =  new BigNumber('0x' + fee_bytes.toString("hex"))
       console.log(fee_int)
       setFee(fee_int)
     }
@@ -94,9 +100,9 @@ const Actions = () => {
         func: new ContractFunction("getLiquidityBalance"),
         args: []
       });
-      debugger
+
       let liquidity_bytes = Buffer.from(response.returnData[0], 'base64')
-      let liquidity = parseInt(liquidity_bytes.toString("hex"), 16)
+      let liquidity = new BigNumber('0x' + liquidity_bytes.toString("hex"))
       console.log(liquidity)
       setLiquidity(liquidity)
     }
@@ -139,12 +145,12 @@ const Actions = () => {
           Send LKMEX
         </a>
       </div>
-      <div className="light-bg">Liquidity: {
+      <div className="light-bg">Available Liquidity: {
         denominate({
-          input: liquidity?.toString() || '',
+          input: availableLiquidity?.toString() || '',
           denomination: 18,
           decimals: 2,
-          showLastNonZeroDecimal: true
+          showLastNonZeroDecimal: false
         })} MEX</div>
       <div className="light-bg">Fee: {
         denominate({
