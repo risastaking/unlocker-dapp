@@ -4,9 +4,10 @@ import { Navbar as BsNavbar, NavItem, Nav } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import LKMexIcon from "../../../assets/img/lkmex.svg"
 import { dAppName } from "../../../config";
+import Trim from "../../../components/Trim";
 
 const Navbar = () => {
-  const { loggedIn } = Dapp.useContext();
+  const { loggedIn, address } = Dapp.useContext();
   const dappLogout = Dapp.useLogout();
   const history = useHistory();
 
@@ -29,11 +30,14 @@ const Navbar = () => {
 
         <Nav className="ml-auto">
           {loggedIn && (
-            <NavItem>
-              <a href="/" onClick={logOut}>
-                Close
-              </a>
+            <><NavItem className="mr-3 navbar-address">
+              <span className="text-muted"><Trim text={address} /></span>
             </NavItem>
+            <NavItem>
+                <a href="/" onClick={logOut}>
+                  <button type="button" className="btn btn-outline-primary">Logout</button>
+                </a>
+              </NavItem></>
           )}
         </Nav>
       </div>

@@ -22,6 +22,9 @@ import denominate from "../../../components/Denominate/denominate";
 import { SyntheticEvent, useState } from "react";
 import { NftType } from "components/NftBlock";
 
+import MexIcon from "../../../assets/img/mex.svg"
+import { Ui } from "@elrondnetwork/dapp-utils";
+
 const FEE_BASIS = new BigNumber(10000)
 const BIG_ZERO = new BigNumber(0)
 const BIG_ONE = new BigNumber(1)
@@ -29,7 +32,7 @@ const BIG_ONE = new BigNumber(1)
 const Actions = () => {
   const { nftBalance } = useContext();
   const sendTransaction = Dapp.useSendTransaction();
-  const { address, dapp } = Dapp.useContext();
+  const { address, dapp, explorerAddress } = Dapp.useContext();
   const [fee, setFee] = React.useState<BigNumber>(FEE_BASIS);
   const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
   const [selectedToken, setSelectedToken] = useState<NftType>();
@@ -129,47 +132,101 @@ const Actions = () => {
 
   return (
 
-    <><div className="d-flex mt-4 justify-content-center">
-      <input type="number" placeholder="Amount" onChange={handleAmountChange} id="amount-to-swap" />
-      <select onChange={handleTokenSelect}>
-        <option>Select...</option>
-        {nftBalance?.filter(t => t.ticker === fromToken).map(t => <option key={t.identifier} value={t.identifier}>
-          {t.identifier} - {denominate({
-            input: t.balance || '',
-            denomination: t.decimals || 0,
-            decimals: 2,
-            showLastNonZeroDecimal: false
-          })}
-        </option>
-        )}
-      </select>
+    <div className="row">
+      <div className="col-sm-6">
+        <div className="card shadow-sm rounded p-4">
+          <div className="card-body">
+            <h5 className="card-title">Select a Token to Unlock</h5>
 
 
-      <div className="action-btn" onClick={handleSubmit}>
-        <button className="btn">
-          <FontAwesomeIcon icon={faArrowUp} className="text-primary" />
-        </button>
-        <a href="/" className="text-white text-decoration-none">
-          Send LKMEX
-        </a>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <label className="input-group-text" htmlFor="token-select">Token</label>
+              </div>
+              <select className="custom-select" id="token-select" onChange={handleTokenSelect}>
+                <option selected></option>
+                {nftBalance?.filter(t => t.ticker === fromToken).map(t =>
+                  <option key={t.identifier} value={t.identifier}>
+                    {t.name} #{t.nonce} Balance: {denominate({
+                      input: t.balance || '',
+                      denomination: t.decimals || 0,
+                      decimals: 2,
+                      showLastNonZeroDecimal: false
+                    })}
+                </option>
+                )}
+              </select>
+            </div>
+
+
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
+              </div>
+              <input type="number" onChange={handleAmountChange} id="amount-to-swap" />
+            </div>
+
+
+
+
+            <div className="mb-3 d-flex mt-4 justify-content-center error">
+              {error}
+            </div>
+
+
+            <a href="#" onClick={handleSubmit} className="btn btn-primary">Unlock</a>
+          </div>
+        </div>
       </div>
-      <div className="light-bg">Available Liquidity: {denominate({
-        input: availableLiquidity?.toString() || '',
-        denomination: 18,
-        decimals: 2,
-        showLastNonZeroDecimal: false
-      })} MEX</div>
-      <div className="light-bg">Fee: {denominate({
-        input: fee?.toString() || '',
-        denomination: 2,
-        decimals: 2,
-        showLastNonZeroDecimal: true
-      })}%</div>
+      <div className="col-sm-6">
+
+
+        <div className="card shadow-sm rounded p-4">
+          <div className="card-body text-center">
+            <h2>Contract</h2>
+            <p>
+              <a
+                href={`${explorerAddress}/accounts/${contractAddress}`}
+                {...{
+                  target: "_blank",
+                }}
+                title="View in Explorer"
+              >
+                <Ui.Trim text={contractAddress} />
+              </a>
+            </p>
+
+            <h2 className="mb-3" data-testid="title">
+              Available Liquidity
+            </h2>
+            <p>{denominate({
+              input: availableLiquidity?.toString() || '',
+              denomination: 18,
+              decimals: 2,
+              showLastNonZeroDecimal: false
+            })} <MexIcon className="token-icon" />MEX</p>
+
+            <h2 className="mb-3" data-testid="title">
+              Unlock Fee
+            </h2>
+            <p>{denominate({
+              input: fee?.toString() || '',
+              denomination: 2,
+              decimals: 2,
+              showLastNonZeroDecimal: true
+            })}%</p>
+
+
+
+          </div>
+        </div>
+
+
+      </div>
     </div>
-      <div className="d-flex mt-4 justify-content-center error">
-        {error}
-      </div>
-    </>
+
+
+
   );
 };
 
