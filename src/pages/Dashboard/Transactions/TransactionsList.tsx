@@ -110,7 +110,7 @@ const TransactionList = ({
       </div>
       <div className="d-flex justify-content-center">
         <a
-          href={`${explorerAddress}address/${address}`}
+          href={`${explorerAddress}/address/${address}`}
           {...{
             target: "_blank",
           }}

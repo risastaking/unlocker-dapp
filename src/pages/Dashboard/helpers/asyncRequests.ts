@@ -115,7 +115,7 @@ const fetchTransactions = (url: string) =>
           sender: address,
           receiver: address,
           condition: "must",
-          size: 25,
+          size: 5,
         },
         timeout,
       });

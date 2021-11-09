@@ -46,7 +46,6 @@ const Home = () => {
       });
       let fee_bytes = Buffer.from(response.returnData[0], 'base64')
       let fee_int = new BigNumber('0x' + fee_bytes.toString("hex"))
-      console.log(fee_int)
       setFee(fee_int)
     }
     const fetchLiquidity = async () => {
@@ -57,7 +56,6 @@ const Home = () => {
 
       let liquidity_bytes = Buffer.from(response.returnData[0], 'base64')
       let liquidity = new BigNumber('0x' + liquidity_bytes.toString("hex"))
-      console.log(liquidity)
       setLiquidity(liquidity)
     }
 
