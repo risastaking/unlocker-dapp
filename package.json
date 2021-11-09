@@ -7,7 +7,7 @@
   "repository": "@risasoft/mex-unlocker",
   "scripts": {
     "start": "parcel -p 3000 src/index.html",
-    "build": "parcel build --public-url ./ src/index.html",
+    "build": "parcel build src/index.html",
     "lint": "eslint --ext js,ts,tsx src"
   },
   "eslintConfig": {
