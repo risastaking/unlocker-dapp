@@ -35,7 +35,7 @@ const Home = () => {
   const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
   const { address, dapp, explorerAddress } = Dapp.useContext();
   const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
-  const availableLiquidity = liquidity.multipliedBy(percentAvailable)
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable).integerValue()
 
   let contract = new SmartContract({ address: new Address(contractAddress) });
   React.useEffect(() => {

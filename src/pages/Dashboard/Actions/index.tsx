@@ -39,7 +39,7 @@ const Actions = () => {
   const [amount, setAmount] = useState<string>('');
   const [error, setError] = useState<string>('');
   const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
-  const availableLiquidity = liquidity.multipliedBy(percentAvailable)
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable).integerValue()
 
   const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
     setSelectedToken(nftBalance.find(t => t.identifier === e.currentTarget.value))
@@ -151,7 +151,7 @@ const Actions = () => {
                       decimals: 2,
                       showLastNonZeroDecimal: false
                     })}
-                </option>
+                  </option>
                 )}
               </select>
             </div>
