@@ -12,8 +12,8 @@ const Navbar = () => {
 
   const logOut = (e: React.MouseEvent) => {
     e.preventDefault();
-    dappLogout({ callbackUrl: `${window.location.origin}/unlocker` });
-    history.push("/unlocker");
+    dappLogout({ callbackUrl: `${window.location.origin}/` });
+    history.push("/");
   };
 
   return (

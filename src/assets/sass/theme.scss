@@ -156,6 +156,10 @@ html {
 .not-allwed {
   cursor: not-allowed;
 }
+.error {
+  font-weight: bold;
+  color: red;
+}
 
 /* Loader, Transaction Success/Fail
 -------------------------------------------------- */

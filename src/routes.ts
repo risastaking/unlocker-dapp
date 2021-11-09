@@ -8,28 +8,28 @@ import Transaction from "./pages/Transaction";
 type RouteType = Dapp.RouteType & { title: string };
 
 export const routeNames = {
-  home: "/unlocker/",
-  dashboard: "/unlocker/dashboard",
-  transaction: "/unlocker/transaction",
-  unlock: "/unlocker/unlock",
-  ledger: "/unlocker/ledger",
-  walletconnect: "/unlocker/walletconnect",
+  home: "/",
+  dashboard: "/dashboard",
+  transaction: "/transaction",
+  unlock: "/unlock",
+  ledger: "/ledger",
+  walletconnect: "/walletconnect",
 };
 
 const routes: RouteType[] = [
   {
-    path: "/unlocker/",
+    path: "/",
     title: "Home",
     component: Home,
   },
   {
-    path: "/unlocker/dashboard",
+    path: "/dashboard",
     title: "Dashboard",
     component: Dashboard,
     authenticatedRoute: true,
   },
   {
-    path: "/unlocker/transaction",
+    path: "/transaction",
     title: "Transaction",
     component: Transaction,
   },

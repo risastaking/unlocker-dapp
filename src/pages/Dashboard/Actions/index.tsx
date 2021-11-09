@@ -34,6 +34,7 @@ const Actions = () => {
   const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
   const [selectedToken, setSelectedToken] = useState<NftType>();
   const [amount, setAmount] = useState<string>('');
+  const [error, setError] = useState<string>('');
   const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
   const availableLiquidity = liquidity.multipliedBy(percentAvailable)
 
@@ -42,16 +43,29 @@ const Actions = () => {
   };
 
   const handleAmountChange = (e: SyntheticEvent<HTMLInputElement, Event>) => {
-    setAmount(e.currentTarget.value)
+    const value = e.currentTarget.value
+    const amount_big = new BigNumber(value + `e+18`)
+    if (amount_big && amount_big.gte(availableLiquidity)) {
+      setError("Not enough liquidity. Please try a lower amount.")
+    } else {
+      setError('')
+    }
+    setAmount(value)
+    e.preventDefault();
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
     const amount_big = new BigNumber(amount + `e+18`)
-
+    if (amount_big.gte(availableLiquidity)) {
+      setError("Not enough liquidity. Please try a lower amount.")
+    } else if (!selectedToken) {
+      setError("Please select a token to unlock.")
+    } else if (!amount) {
+      setError("Please enter an amount to unlock.")
+    } else {
+      send(buildTransaction(selectedToken, amount))
+    }
     e.preventDefault();
-    selectedToken && amount && availableLiquidity.gte(amount_big) ?
-      send(buildTransaction(selectedToken, amount)) :
-      () => null // todo set error
   }
   const send = (transaction: Transaction) => {
     sendTransaction({
@@ -91,7 +105,7 @@ const Actions = () => {
         args: []
       });
       let fee_bytes = Buffer.from(response.returnData[0], 'base64')
-      let fee_int =  new BigNumber('0x' + fee_bytes.toString("hex"))
+      let fee_int = new BigNumber('0x' + fee_bytes.toString("hex"))
       console.log(fee_int)
       setFee(fee_int)
     }
@@ -115,24 +129,18 @@ const Actions = () => {
 
   return (
 
-    <div className="d-flex mt-4 justify-content-center">
-
-      <input type="number" placeholder="Amount" step="1" onChange={handleAmountChange} id="amount-to-swap" />
-
+    <><div className="d-flex mt-4 justify-content-center">
+      <input type="number" placeholder="Amount" onChange={handleAmountChange} id="amount-to-swap" />
       <select onChange={handleTokenSelect}>
-
         <option>Select...</option>
-        {nftBalance?.filter(t => t.ticker === fromToken).map(t =>
-          <option key={t.identifier} value={t.identifier} >
-            {t.identifier} - {
-              denominate({
-                input: t.balance || '',
-                denomination: t.decimals || 0,
-                decimals: 2,
-                showLastNonZeroDecimal: false
-              })
-            }
-          </option>
+        {nftBalance?.filter(t => t.ticker === fromToken).map(t => <option key={t.identifier} value={t.identifier}>
+          {t.identifier} - {denominate({
+            input: t.balance || '',
+            denomination: t.decimals || 0,
+            decimals: 2,
+            showLastNonZeroDecimal: false
+          })}
+        </option>
         )}
       </select>
 
@@ -145,21 +153,23 @@ const Actions = () => {
           Send LKMEX
         </a>
       </div>
-      <div className="light-bg">Available Liquidity: {
-        denominate({
-          input: availableLiquidity?.toString() || '',
-          denomination: 18,
-          decimals: 2,
-          showLastNonZeroDecimal: false
-        })} MEX</div>
-      <div className="light-bg">Fee: {
-        denominate({
-          input: fee?.toString() || '',
-          denomination: 2,
-          decimals: 2,
-          showLastNonZeroDecimal: true
-        })}%</div>
+      <div className="light-bg">Available Liquidity: {denominate({
+        input: availableLiquidity?.toString() || '',
+        denomination: 18,
+        decimals: 2,
+        showLastNonZeroDecimal: false
+      })} MEX</div>
+      <div className="light-bg">Fee: {denominate({
+        input: fee?.toString() || '',
+        denomination: 2,
+        decimals: 2,
+        showLastNonZeroDecimal: true
+      })}%</div>
     </div>
+      <div className="d-flex mt-4 justify-content-center error">
+        {error}
+      </div>
+    </>
   );
 };
 
