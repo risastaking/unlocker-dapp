@@ -2,7 +2,7 @@ import * as React from 'react';
 
 interface TrimType {
   text: string;
-  color?: 'muted' | 'secondary';
+  color?: 'text-muted' | 'text-secondary';
   dataTestId?: string;
 }
 

@@ -161,7 +161,7 @@ const Actions = () => {
               <div className="input-group-prepend">
                 <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
               </div>
-              <input type="number" onChange={handleAmountChange} id="amount-to-swap" />
+              <input type="number" className="form-control" onChange={handleAmountChange} id="amount-to-swap" />
             </div>
 
 

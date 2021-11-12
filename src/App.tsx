@@ -8,6 +8,7 @@ import { ContextProvider } from "./context";
 import routes, { routeNames } from "./routes";
 import "./assets/sass/theme.scss"
 
+
 export default function App() {
   return (
     <Dapp.Context config={config}>

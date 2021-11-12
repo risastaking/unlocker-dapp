@@ -39,7 +39,7 @@ const OperationSender = ({ operation, action }: { operation: OperationType; acti
         <>
 
           <NetworkLink to={urlBuilder.accountDetails(operation.sender)} className="trim-wrapper">
-            <Trim text={operation.sender} color="secondary" />
+            <Trim text={operation.sender} color="text-secondary" />
           </NetworkLink>
         </>
       ) : (
@@ -62,7 +62,7 @@ const OperationReceiver = ({
       <div className="mr-2 text-nowrap">{action ? `${action} to ` : 'To'}</div>
       {addressIsBech32(operation.sender) ? (
           <NetworkLink to={urlBuilder.accountDetails(operation.receiver)} className="trim-wrapper">
-            <Trim text={operation.receiver} color="secondary" />
+            <Trim text={operation.receiver} color="text-secondary" />
           </NetworkLink>
       ) : (
         ''

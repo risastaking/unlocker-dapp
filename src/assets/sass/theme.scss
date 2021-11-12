@@ -12,19 +12,13 @@ code {
     monospace;
 }
 
-/* Bootstrap overrides
--------------------------------------------------- */
 $body: #000;
 $headings-font-weight: 300 !important;
 $primary: #1b46c2;
 $light: #fafafa;
 
-/* Do not move the imports from here.
-Override Bootstrap variables only above.
--------------------------------------------------- */
-
 @import "bootstrap/scss/bootstrap.scss";
-@import "@elrondnetwork/dapp-utils/dist/dapp-utils.scss";
+@import '_dapp-utils.scss';
 
 /* Base
 -------------------------------------------------- */
@@ -62,7 +56,7 @@ html {
 -------------------------------------------------- */
 
 .dapp-name {
-  line-height: 1;
+  line-height: 1rem;
   border-left: 1px solid $gray-400;
   padding-left: 3px;
   margin-left: 4px;
@@ -123,21 +117,6 @@ html {
   }
 
   &.table {
-
-    .transaction-hash .trim {
-      @include media-breakpoint-down(xl) {
-        max-width: none;
-      }
-      @include media-breakpoint-down(lg) {
-        max-width: 26rem;
-      }
-      @include media-breakpoint-down(md) {
-        max-width: 12rem;
-      }
-      @include media-breakpoint-down(sm) {
-        max-width: 8rem;
-      }
-    }
 
     td, tr {
       padding: 0.65rem;
@@ -319,11 +298,6 @@ a > .trim span {
 .table .trim {
   max-width: 15rem; }
 
-.table .trim-only-sm .trim {
-  max-width: none; }
-  @media (max-width: 767.98px) {
-    .table .trim-only-sm .trim {
-      max-width: 13rem; } }
 
 @media (min-width: 768px) {
   .table .trim-size-xl .trim {

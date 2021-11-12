@@ -18,30 +18,37 @@ const Navbar = () => {
   };
 
   return (
-    <BsNavbar className="bg-white border-bottom px-4 py-3">
-      <div className="container-fluid">
-        <Link
-          className="d-flex align-items-center navbar-brand mr-0"
-          to={loggedIn ? "/dashboard" : "/"}
-        >
-          <LKMexIcon className="token-icon-large" />
-          <span className="dapp-name text-muted">{dAppName}</span>
-        </Link>
 
-        <Nav className="ml-auto">
-          {loggedIn && (
-            <><NavItem className="mr-3 navbar-address">
-              <span className="text-muted"><Trim text={address} /></span>
-            </NavItem>
-            <NavItem>
-                <a href="/" onClick={logOut}>
-                  <button type="button" className="btn btn-outline-primary">Logout</button>
-                </a>
-              </NavItem></>
-          )}
-        </Nav>
+    <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 py-3">
+      <Link
+        className="navbar-brand mr-auto"
+        to={loggedIn ? "/dashboard" : "/"}
+      >
+        <LKMexIcon className="token-icon-large" />
+        <span className="navbar-text dapp-name">{dAppName}</span>
+      </Link>
+
+      {loggedIn && (
+        <div className="container-fluid ml-auto"><Trim text={address} color="text-muted" /></div>
+      )}
+
+      <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span className="navbar-toggler-icon"></span>
+      </button>
+
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        {/* <ul className="navbar-nav mr-auto">
+      <li className="nav-item">
+        <a className="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul> */}
+        {loggedIn && (
+          <a href="/" onClick={logOut}>
+            <button type="button" className="btn btn-outline-primary">Logout</button>
+          </a>
+        )}
       </div>
-    </BsNavbar>
+    </nav>
   );
 };
 

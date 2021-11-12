@@ -71,17 +71,6 @@ const TransactionList = ({
                       />
                     </div>
                   </td>
-                  {/* <td className="transaction-hash">
-                    <a
-                      href={`${explorerAddress}transactions/${tx.txHash}`}
-                      {...{
-                        target: "_blank",
-                      }}
-                      title="View in Explorer"
-                    >
-                      <Ui.Trim data-testid="txHash" text={tx.txHash} />
-                    </a>
-                  </td> */}
                   <td>
                     {moment.unix(tx.timestamp).format("MMM Do, h:mm A")}
                   </td>
@@ -99,7 +88,7 @@ const TransactionList = ({
                         }}
                         title="View in Explorer"
                       >
-                        <Ui.Trim data-testid="txHash" text={tx.txHash} />
+                        <Ui.Trim data-testid="txHash" text={tx.txHash} color="text-muted" />
                       </a>
                   </td>
                 </tr>
