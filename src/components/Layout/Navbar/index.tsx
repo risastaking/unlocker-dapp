@@ -7,7 +7,7 @@ import { dAppName } from "../../../config";
 import Trim from "../../../components/Trim";
 
 const Navbar = () => {
-  const { loggedIn, address } = Dapp.useContext();
+  const { loggedIn, address, explorerAddress } = Dapp.useContext();
   const dappLogout = Dapp.useLogout();
   const history = useHistory();
 
@@ -28,8 +28,25 @@ const Navbar = () => {
         <span className="navbar-text dapp-name">{dAppName}</span>
       </Link>
 
+
+      <div className="container-fluid ml-auto"></div>
+
       {loggedIn && (
-        <div className="container-fluid ml-auto"><Trim text={address} color="text-muted" /></div>
+          <NavItem className="navbar-address mr-3">
+            <span className="text-muted">
+            <a
+                href={`${explorerAddress}/accounts/${address}`}
+                {...{
+                  target: "_blank",
+                }}
+                title="View in Explorer"
+              >
+                <Trim text={address} />
+              </a>
+
+              </span>
+          </NavItem>
+
       )}
 
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,11 +54,6 @@ const Navbar = () => {
       </button>
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        {/* <ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <a className="nav-link disabled" href="#">Disabled</a>
-      </li>
-    </ul> */}
         {loggedIn && (
           <a href="/" onClick={logOut}>
             <button type="button" className="btn btn-outline-primary">Logout</button>
