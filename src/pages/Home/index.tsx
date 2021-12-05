@@ -35,7 +35,7 @@ const Home = () => {
   const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
   const { address, dapp, explorerAddress } = Dapp.useContext();
   const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
-  const availableLiquidity = liquidity.multipliedBy(percentAvailable).integerValue()
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable).toFixed()
 
   let contract = new SmartContract({ address: new Address(contractAddress) });
   React.useEffect(() => {
@@ -56,7 +56,7 @@ const Home = () => {
 
       let liquidity_bytes = Buffer.from(response.returnData[0], 'base64')
       let liquidity = new BigNumber('0x' + liquidity_bytes.toString("hex"))
-      setLiquidity(liquidity)
+      setLiquidity(liquidity.isPositive() ? liquidity : new BigNumber(0))
     }
 
     fetchFee()
@@ -99,25 +99,25 @@ const Home = () => {
 
           <div className="card shadow-sm rounded p-4 border-0">
             <div className="card-body text-center">
-            <h2 className="mb-3" data-testid="title">
-              Available Liquidity
-            </h2>
-            <h4>{denominate({
-              input: availableLiquidity?.toString() || '',
-              denomination: 18,
-              decimals: 2,
-              showLastNonZeroDecimal: false
-            })} <MexIcon className="token-icon-large" />MEX</h4>
+              <h2 className="mb-3" data-testid="title">
+                Available Liquidity
+              </h2>
+              <h4>{denominate({
+                input: availableLiquidity?.toString() || '',
+                denomination: 18,
+                decimals: 0,
+                showLastNonZeroDecimal: false
+              })} <MexIcon className="token-icon-large" />MEX</h4>
 
-            <h2 className="mb-3" data-testid="title">
-              Unlock Fee
-            </h2>
-            <h3>{denominate({
-              input: fee?.toString() || '',
-              denomination: 2,
-              decimals: 2,
-              showLastNonZeroDecimal: true
-            })}%</h3>
+              <h2 className="mb-3" data-testid="title">
+                Unlock Fee
+              </h2>
+              <h3>{denominate({
+                input: fee?.toString() || '',
+                denomination: 2,
+                decimals: 2,
+                showLastNonZeroDecimal: true
+              })}%</h3>
 
             </div>
           </div>

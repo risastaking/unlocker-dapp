@@ -32,14 +32,14 @@ const BIG_ONE = new BigNumber(1)
 const Actions = () => {
   const { nftBalance } = useContext();
   const sendTransaction = Dapp.useSendTransaction();
-  const { address, dapp, explorerAddress } = Dapp.useContext();
+  const { address, dapp, explorerAddress, chainId } = Dapp.useContext();
   const [fee, setFee] = React.useState<BigNumber>(FEE_BASIS);
   const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
   const [selectedToken, setSelectedToken] = useState<NftType>();
   const [amount, setAmount] = useState<string>('');
   const [error, setError] = useState<string>('');
   const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
-  const availableLiquidity = liquidity.multipliedBy(percentAvailable).integerValue()
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable).toFixed()
 
   const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
     setSelectedToken(nftBalance.find(t => t.identifier === e.currentTarget.value))
@@ -59,12 +59,15 @@ const Actions = () => {
 
   const handleSubmit = (e: React.MouseEvent) => {
     const amount_big = new BigNumber(amount + `e+18`)
+    const balance_big = new BigNumber(selectedToken?.balance || 0 + `e+18`)
     if (amount_big.gte(availableLiquidity)) {
       setError("Not enough liquidity. Please try a lower amount.")
     } else if (!selectedToken) {
       setError("Please select a token to unlock.")
     } else if (!amount) {
       setError("Please enter an amount to unlock.")
+    } else if (balance_big.lt(amount_big)) {
+      setError("Insufficient funds.")
     } else {
       send(buildTransaction(selectedToken, amount))
     }
@@ -84,7 +87,7 @@ const Actions = () => {
     const payload = TransactionPayload.contractCall()
       .setFunction(new ContractFunction("ESDTNFTTransfer"))
       .setArgs([
-        BytesValue.fromUTF8(token.ticker),
+        BytesValue.fromUTF8(token.collection),
         new U64Value(new BigNumber(token.nonce)),
         new BigUIntValue(new BigNumber(amount_big)),
         new AddressValue(new Address(contractAddress)),
@@ -96,6 +99,7 @@ const Actions = () => {
       receiver: new Address(address),
       gasLimit: new GasLimit(5000000),
       data: payload,
+      chainID: chainId,
     });
 
   }
@@ -119,7 +123,7 @@ const Actions = () => {
 
       let liquidity_bytes = Buffer.from(response.returnData[0], 'base64')
       let liquidity = new BigNumber('0x' + liquidity_bytes.toString("hex"))
-      setLiquidity(liquidity)
+      setLiquidity(liquidity.isPositive() ? liquidity : new BigNumber(0))
     }
 
     fetchFee()
@@ -141,9 +145,9 @@ const Actions = () => {
               <div className="input-group-prepend">
                 <label className="input-group-text" htmlFor="token-select">Token</label>
               </div>
-              <select className="custom-select" id="token-select" onChange={handleTokenSelect}>
-                <option selected></option>
-                {nftBalance?.filter(t => t.ticker === fromToken).map(t =>
+              <select defaultValue={''} className="custom-select" id="token-select" onChange={handleTokenSelect}>
+                <option></option>
+                {nftBalance?.filter(t => t.collection === fromToken).map(t =>
                   <option key={t.identifier} value={t.identifier}>
                     {t.name} #{t.nonce} Balance: {denominate({
                       input: t.balance || '',
@@ -171,8 +175,16 @@ const Actions = () => {
               {error}
             </div>
 
-
             <a href="#" onClick={handleSubmit} className="btn btn-primary">Unlock</a>
+
+
+            <div className="mb-3 d-flex mt-4 justify-content-center">*{denominate({
+              input: fee?.toString() || '',
+              denomination: 2,
+              decimals: 2,
+              showLastNonZeroDecimal: true
+            })}% unlock fee will be deducted from sent MEX.</div>
+
           </div>
         </div>
       </div>
@@ -200,7 +212,7 @@ const Actions = () => {
             <h4>{denominate({
               input: availableLiquidity?.toString() || '',
               denomination: 18,
-              decimals: 2,
+              decimals: 0,
               showLastNonZeroDecimal: false
             })} <MexIcon className="token-icon-large" />MEX</h4>
 

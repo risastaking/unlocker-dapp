@@ -6,9 +6,11 @@
   "license": "GPL-3.0-or-later",
   "repository": "@risasoft/mex-unlocker",
   "scripts": {
-    "start": "parcel -p 3000 src/index.html",
+    "start": "parcel -p 5000 src/index.html",
     "build": "parcel build src/index.html",
-    "lint": "eslint --ext js,ts,tsx src"
+    "build-mainnet": "yarn run copy-mainnet && parcel build src/index.html",
+    "lint": "eslint --ext js,ts,tsx src",
+    "copy-mainnet": "node -e \"const fs = require('fs'); fs.copyFileSync('./src/config.mainnet.tsx', './src/config.tsx');\""
   },
   "eslintConfig": {
     "extends": [
