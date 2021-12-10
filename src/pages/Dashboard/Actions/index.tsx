@@ -26,8 +26,8 @@ import MexIcon from "../../../assets/img/mex.svg"
 import { Ui } from "@elrondnetwork/dapp-utils";
 
 const FEE_BASIS = new BigNumber(10000)
-const BIG_ZERO = new BigNumber(0)
-const BIG_ONE = new BigNumber(1)
+const BIG_ZERO = new BigNumber(0).precision(18)
+const BIG_ONE = new BigNumber(1).precision(18)
 
 const Actions = () => {
   const { nftBalance } = useContext();
@@ -39,7 +39,7 @@ const Actions = () => {
   const [amount, setAmount] = useState<string>('');
   const [error, setError] = useState<string>('');
   const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
-  const availableLiquidity = liquidity.multipliedBy(percentAvailable).toFixed()
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable).dp(0).toFixed()
 
   const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
     setSelectedToken(nftBalance.find(t => t.identifier === e.currentTarget.value))

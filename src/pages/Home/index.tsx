@@ -26,8 +26,8 @@ import denominate from "../../components/Denominate/denominate";
 import { contractAddress } from "../../config";
 
 const FEE_BASIS = new BigNumber(10000)
-const BIG_ZERO = new BigNumber(0)
-const BIG_ONE = new BigNumber(1)
+const BIG_ZERO = new BigNumber(0).precision(18)
+const BIG_ONE = new BigNumber(1).precision(18)
 
 const Home = () => {
 
@@ -35,7 +35,7 @@ const Home = () => {
   const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
   const { address, dapp, explorerAddress } = Dapp.useContext();
   const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
-  const availableLiquidity = liquidity.multipliedBy(percentAvailable).toFixed()
+  const availableLiquidity = liquidity.multipliedBy(percentAvailable).dp(0).toFixed()
 
   let contract = new SmartContract({ address: new Address(contractAddress) });
   React.useEffect(() => {
