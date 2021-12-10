@@ -520,9 +520,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@elrondnetwork/dapp@npm:0.0.70":
-  version: 0.0.70
-  resolution: "@elrondnetwork/dapp@npm:0.0.70"
+"@elrondnetwork/dapp@npm:0.0.75":
+  version: 0.0.75
+  resolution: "@elrondnetwork/dapp@npm:0.0.75"
   dependencies:
     "@fortawesome/fontawesome-svg-core": 1.2.35
     "@fortawesome/free-solid-svg-icons": 5.15.3
@@ -539,13 +539,13 @@ __metadata:
     react: 17.0.2
     react-bootstrap: 1.5.2
     react-router-dom: 5.2.0
-  checksum: 2f44bcf9f661e81dae93f3ff943f282f710d55a42aff745316f5ffbc283c262679973cb47fc5b813a70fcaab87939f1c3ef2aa8b78614bae00a6df75a4493ba3
+  checksum: eaeac10a346d9aae020fa18d9b930d5027eb7807c1b576747a9c35c6d432bddcdab6cb7780528763980788a836cfef3cc346818299f77598c2e8fd7a96db3286
   languageName: node
   linkType: hard
 
-"@elrondnetwork/erdjs@npm:8.0.1-alpha.11":
-  version: 8.0.1-alpha.11
-  resolution: "@elrondnetwork/erdjs@npm:8.0.1-alpha.11"
+"@elrondnetwork/erdjs@npm:8.0.1-alpha.13":
+  version: 8.0.1-alpha.13
+  resolution: "@elrondnetwork/erdjs@npm:8.0.1-alpha.13"
   dependencies:
     "@babel/runtime": 7.11.2
     "@elrondnetwork/bls-wasm": 0.3.3
@@ -569,7 +569,7 @@ __metadata:
     scryptsy: 2.1.0
     tweetnacl: 1.0.3
     uuid: 8.3.2
-  checksum: d1645a6c1ea73eb07b376c9e8acc38f4d4904dec01698f9711dc9a30902c55751d70c14162476535262d701707b886e99a01b96c407d5b390bf6a5eaa151ec0c
+  checksum: 60ea00eb62b7da4c9ef21e70d60b5344772f6a15283854f58ff072a59317ebe3ca14b2a8b9f022339d224499dfdefc506e3f78e525567f5e2206639b67ed5168
   languageName: node
   linkType: hard
 
@@ -2119,9 +2119,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@risasoft/mex-unlocker@workspace:."
   dependencies:
-    "@elrondnetwork/dapp": 0.0.70
+    "@elrondnetwork/dapp": 0.0.75
     "@elrondnetwork/dapp-utils": 0.0.14
-    "@elrondnetwork/erdjs": 8.0.1-alpha.11
+    "@elrondnetwork/erdjs": 8.0.1-alpha.13
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
     "@fortawesome/react-fontawesome": ^0.1.16

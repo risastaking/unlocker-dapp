@@ -31,9 +31,9 @@
     ]
   },
   "dependencies": {
-    "@elrondnetwork/dapp": "0.0.70",
+    "@elrondnetwork/dapp": "0.0.75",
     "@elrondnetwork/dapp-utils": "0.0.14",
-    "@elrondnetwork/erdjs": "8.0.1-alpha.11",
+    "@elrondnetwork/erdjs": "8.0.1-alpha.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",

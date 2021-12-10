@@ -35,9 +35,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {
           "packageLocation": "./",
           "packageDependencies": [
-            ["@elrondnetwork/dapp", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.70"],
+            ["@elrondnetwork/dapp", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.75"],
             ["@elrondnetwork/dapp-utils", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.14"],
-            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.11"],
+            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.13"],
             ["@fortawesome/fontawesome-svg-core", "npm:1.2.36"],
             ["@fortawesome/free-solid-svg-icons", "npm:5.15.4"],
             ["@fortawesome/react-fontawesome", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.1.16"],
@@ -804,18 +804,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@elrondnetwork/dapp", [
-        ["npm:0.0.70", {
-          "packageLocation": "./.yarn/cache/@elrondnetwork-dapp-npm-0.0.70-5492b74a7a-2f44bcf9f6.zip/node_modules/@elrondnetwork/dapp/",
+        ["npm:0.0.75", {
+          "packageLocation": "./.yarn/cache/@elrondnetwork-dapp-npm-0.0.75-0fc99bd628-eaeac10a34.zip/node_modules/@elrondnetwork/dapp/",
           "packageDependencies": [
-            ["@elrondnetwork/dapp", "npm:0.0.70"]
+            ["@elrondnetwork/dapp", "npm:0.0.75"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.70", {
-          "packageLocation": "./.yarn/__virtual__/@elrondnetwork-dapp-virtual-d63276e505/0/cache/@elrondnetwork-dapp-npm-0.0.70-5492b74a7a-2f44bcf9f6.zip/node_modules/@elrondnetwork/dapp/",
+        ["virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.75", {
+          "packageLocation": "./.yarn/__virtual__/@elrondnetwork-dapp-virtual-082052da41/0/cache/@elrondnetwork-dapp-npm-0.0.75-0fc99bd628-eaeac10a34.zip/node_modules/@elrondnetwork/dapp/",
           "packageDependencies": [
-            ["@elrondnetwork/dapp", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.70"],
-            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.11"],
+            ["@elrondnetwork/dapp", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.75"],
+            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.13"],
             ["@fortawesome/fontawesome-svg-core", "npm:1.2.35"],
             ["@fortawesome/free-solid-svg-icons", "npm:5.15.3"],
             ["@fortawesome/react-fontawesome", "virtual:34190556b094fb8b506b462e4dc9839dbc339bf551ddc4fda7b4eea4464f2da82e9968f669d320442e7e8a4a1eebea78d585d4f953e7d157d1c2c4b749fe78a1#npm:0.1.14"],
@@ -861,7 +861,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/__virtual__/@elrondnetwork-dapp-utils-virtual-34190556b0/0/cache/@elrondnetwork-dapp-utils-npm-0.0.14-24872e5d54-f6aa57b7c1.zip/node_modules/@elrondnetwork/dapp-utils/",
           "packageDependencies": [
             ["@elrondnetwork/dapp-utils", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.14"],
-            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.11"],
+            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.13"],
             ["@fortawesome/fontawesome-svg-core", "npm:1.2.35"],
             ["@fortawesome/free-solid-svg-icons", "npm:5.15.3"],
             ["@fortawesome/react-fontawesome", "virtual:34190556b094fb8b506b462e4dc9839dbc339bf551ddc4fda7b4eea4464f2da82e9968f669d320442e7e8a4a1eebea78d585d4f953e7d157d1c2c4b749fe78a1#npm:0.1.14"],
@@ -896,10 +896,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["@elrondnetwork/erdjs", [
-        ["npm:8.0.1-alpha.11", {
-          "packageLocation": "./.yarn/cache/@elrondnetwork-erdjs-npm-8.0.1-alpha.11-517b0672ec-d1645a6c1e.zip/node_modules/@elrondnetwork/erdjs/",
+        ["npm:8.0.1-alpha.13", {
+          "packageLocation": "./.yarn/cache/@elrondnetwork-erdjs-npm-8.0.1-alpha.13-3edd232227-60ea00eb62.zip/node_modules/@elrondnetwork/erdjs/",
           "packageDependencies": [
-            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.11"],
+            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.13"],
             ["@babel/runtime", "npm:7.11.2"],
             ["@elrondnetwork/bls-wasm", "npm:0.3.3"],
             ["@elrondnetwork/hw-app-elrond", "npm:0.3.2"],
@@ -2841,9 +2841,9 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",
           "packageDependencies": [
             ["@risasoft/mex-unlocker", "workspace:."],
-            ["@elrondnetwork/dapp", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.70"],
+            ["@elrondnetwork/dapp", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.75"],
             ["@elrondnetwork/dapp-utils", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.0.14"],
-            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.11"],
+            ["@elrondnetwork/erdjs", "npm:8.0.1-alpha.13"],
             ["@fortawesome/fontawesome-svg-core", "npm:1.2.36"],
             ["@fortawesome/free-solid-svg-icons", "npm:5.15.4"],
             ["@fortawesome/react-fontawesome", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:0.1.16"],
