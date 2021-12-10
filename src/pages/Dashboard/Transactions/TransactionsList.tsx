@@ -77,19 +77,19 @@ const TransactionList = ({
                   <td>
                     {tx.operations ?
                       <OperationsList operations={tx.operations}></OperationsList>
-                      : (atob(tx.data).split("@")[0])
+                      : tx.data ? (atob(tx.data)?.split("@")[0]) : ''
                     }
 
                     <div className="mr-2 text-nowrap">Tx Hash:</div>
                     <a
-                        href={`${explorerAddress}/transactions/${tx.txHash}`}
-                        {...{
-                          target: "_blank",
-                        }}
-                        title="View in Explorer"
-                      >
-                        <Ui.Trim data-testid="txHash" text={tx.txHash} color="text-muted" />
-                      </a>
+                      href={`${explorerAddress}/transactions/${tx.txHash}`}
+                      {...{
+                        target: "_blank",
+                      }}
+                      title="View in Explorer"
+                    >
+                      <Ui.Trim data-testid="txHash" text={tx.txHash} color="text-muted" />
+                    </a>
                   </td>
                 </tr>
               );
