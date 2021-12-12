@@ -42,7 +42,18 @@ const Actions = () => {
   const availableLiquidity = liquidity.multipliedBy(percentAvailable).dp(0).toFixed()
 
   const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
-    setSelectedToken(nftBalance.find(t => t.identifier === e.currentTarget.value))
+    const token = nftBalance.find(t => t.identifier === e.currentTarget.value)
+
+    const balance = denominate({
+      input: token?.balance || '',
+      denomination: token?.decimals || 0,
+      decimals: 2,
+      showLastNonZeroDecimal: false,
+      addCommas: false
+    })
+
+    setSelectedToken(token)
+    setAmount(balance)
   };
 
   const handleAmountChange = (e: SyntheticEvent<HTMLInputElement, Event>) => {
@@ -149,7 +160,7 @@ const Actions = () => {
                 <option></option>
                 {nftBalance?.filter(t => t.collection === fromToken).map(t =>
                   <option key={t.identifier} value={t.identifier}>
-                    {t.name} #{t.nonce} Balance: {denominate({
+                    {t.ticker} - Balance: {denominate({
                       input: t.balance || '',
                       denomination: t.decimals || 0,
                       decimals: 2,
@@ -165,7 +176,7 @@ const Actions = () => {
               <div className="input-group-prepend">
                 <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
               </div>
-              <input type="number" className="form-control" onChange={handleAmountChange} id="amount-to-swap" />
+              <input type="number" inputMode="numeric" className="form-control" value={amount} onChange={handleAmountChange} id="amount-to-swap" />
             </div>
 
 
