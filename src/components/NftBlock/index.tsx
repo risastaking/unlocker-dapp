@@ -37,6 +37,20 @@ export interface NftType {
   }
   ticker: string;
 }
+export interface TokenType {
+  identifier: string;
+  name: string ;
+  ticker: string;
+  owner?: string;
+  minted:string;
+  burnt: string;
+  decimals: number | undefined;
+  isPaused: boolean;
+  assets?: {
+    svgUrl: string;
+  }
+  balance?: string;
+}
 
 const NftBlock = (props: NftBlockType) => {
 

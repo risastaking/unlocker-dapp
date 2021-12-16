@@ -1,4 +1,4 @@
-import { NftType } from "components/NftBlock";
+import { NftType, TokenType } from "components/NftBlock";
 
 interface ScResultType {
   callType: string;
@@ -49,14 +49,16 @@ export interface TransactionType {
 export interface StateType {
   transactions: TransactionType[];
   transactionsFetched: boolean | undefined;
-  nftBalance: NftType[]
+  nftBalance: NftType[];
+  tokenBalance: TokenType[];
 }
 
 const initialState = (): StateType => {
   return {
     transactions: [],
     transactionsFetched: undefined,
-    nftBalance: []
+    nftBalance: [],
+    tokenBalance: []
   };
 };
 

@@ -6,7 +6,8 @@ import PageState from "../../components/PageState";
 import { contractAddress } from "../../config";
 import { useContext, useDispatch } from "../../context";
 import Actions from "./Actions";
-import { getNftBalance, getTransaction, getTransactions } from "./helpers/asyncRequests";
+import Farm from "./Farm";
+import { getNftBalance, getTransaction, getTransactions, getTokenBalance } from "./helpers/asyncRequests";
 import Transactions from "./Transactions";
 
 const Dashboard = () => {
@@ -44,6 +45,7 @@ const Dashboard = () => {
         });
       }
     });
+
     getNftBalance({
       apiAddress,
       address,
@@ -52,6 +54,17 @@ const Dashboard = () => {
       dispatch({
         type: "setNftBalance",
         nftBalance: data
+      });
+    });
+
+    getTokenBalance({
+      apiAddress,
+      address,
+      timeout: 3000
+    }).then(({ data, success }) => {
+      dispatch({
+        type: "setTokenBalance",
+        tokenBalance: data
       });
     });
 
@@ -89,6 +102,7 @@ const Dashboard = () => {
               <div className="card rounded border-0">
                 <div className="card-body text-center p-4">
                   <Actions />
+                  <Farm />
                 </div>
               </div>
               <Transactions />

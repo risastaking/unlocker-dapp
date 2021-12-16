@@ -102,6 +102,29 @@ const fetchTransaction = (url: string) =>
     }
   };
 
+  const fetchTokenBalance = (url: string) =>
+  async function getTokenBalance({
+    apiAddress,
+    address,
+    timeout
+  }: any) {
+    try {
+      const { data } = await axios.get(`${apiAddress}${url}/${address}/tokens`, {
+        params: {},
+        timeout,
+      });
+
+      return {
+        data: data,
+        success: data !== undefined,
+      };
+    } catch (err) {
+      return {
+        success: false,
+      };
+    }
+  };
+
 const fetchTransactions = (url: string) =>
   async function getTransactions({
     apiAddress,
@@ -113,7 +136,6 @@ const fetchTransactions = (url: string) =>
       const { data } = await axios.get(`${apiAddress}${url}`, {
         params: {
           sender: address,
-          receiver: address,
           condition: "must",
           size: 5,
         },
@@ -137,3 +159,4 @@ export const getTransactionsCount = fetchTransactions("/transactions/count");
 export const getToken = fetchToken("/tokens");
 export const getNft = fetchNft("/nfts");
 export const getNftBalance = fetchNftBalance("/accounts");
+export const getTokenBalance = fetchTokenBalance("/accounts");

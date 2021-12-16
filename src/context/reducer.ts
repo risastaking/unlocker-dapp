@@ -1,12 +1,13 @@
 import { OperationType, StateType, TransactionType } from "./state";
 
 export type ActionType = {
-  type: "setTransactions" | "setTransactionOperations" | "setNftBalance";
+  type: "setTransactions" | "setTransactionOperations" | "setNftBalance" | "setTokenBalance";
   operations: OperationType[];
   txHash: string;
   transactions: TransactionType[];
   transactionsFetched: StateType["transactionsFetched"];
-  nftBalance: any[]
+  nftBalance: any[];
+  tokenBalance: any[];
 };
 
 export function reducer(state: StateType, action: ActionType): StateType {
@@ -35,6 +36,13 @@ export function reducer(state: StateType, action: ActionType): StateType {
       const newState: StateType = {
         ...state,
         nftBalance: action.nftBalance
+      };
+      return newState;
+    }
+    case "setTokenBalance": {
+      const newState: StateType = {
+        ...state,
+        tokenBalance: action.tokenBalance
       };
       return newState;
     }

@@ -10,39 +10,37 @@ import {
   TransactionPayload,
   Transaction,
   U64Value,
-  BigUIntValue
+  BigUIntValue,
+  TypedValue
 } from "@elrondnetwork/erdjs";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BigNumber } from "bignumber.js"
-import { contractAddress, fromToken } from "../../../config";
+import { contractAddress, toToken } from "../../../config";
 import { routeNames } from "../../../routes";
 import { useContext } from "../../../context";
 import denominate from "../../../components/Denominate/denominate";
 import { SyntheticEvent, useState } from "react";
-import { NftType } from "components/NftBlock";
+import { TokenType } from "components/NftBlock";
 
 import MexIcon from "../../../assets/img/mex.svg"
 import { Ui } from "@elrondnetwork/dapp-utils";
 
-const FEE_BASIS = new BigNumber(10000)
 const BIG_ZERO = new BigNumber(0).precision(18)
-const BIG_ONE = new BigNumber(1).precision(18)
 
 const Actions = () => {
-  const { nftBalance } = useContext();
+
+  const [fee, setFee] = React.useState<BigNumber>(BIG_ZERO);
+  const { tokenBalance } = useContext();
   const sendTransaction = Dapp.useSendTransaction();
   const { address, dapp, explorerAddress, chainId } = Dapp.useContext();
-  const [fee, setFee] = React.useState<BigNumber>(FEE_BASIS);
-  const [liquidity, setLiquidity] = React.useState<BigNumber>(BIG_ZERO);
-  const [selectedToken, setSelectedToken] = useState<NftType>();
+  const [balance, setBalance] = React.useState<BigNumber>(BIG_ZERO);
+  const [selectedToken, setSelectedToken] = useState<TokenType>();
   const [amount, setAmount] = useState<string>('');
   const [error, setError] = useState<string>('');
-  const percentAvailable = BIG_ONE.minus(fee.div(FEE_BASIS))
-  const availableLiquidity = liquidity.multipliedBy(percentAvailable).dp(0).toFixed()
 
   const handleTokenSelect = (e: SyntheticEvent<HTMLSelectElement, Event>) => {
-    const token = nftBalance.find(t => t.identifier === e.currentTarget.value)
+    const token = tokenBalance.find(t => t.identifier === e.currentTarget.value)
 
     const balance = denominate({
       input: token?.balance || '',
@@ -58,12 +56,6 @@ const Actions = () => {
 
   const handleAmountChange = (e: SyntheticEvent<HTMLInputElement, Event>) => {
     const value = e.currentTarget.value
-    const amount_big = new BigNumber(value + `e+18`)
-    if (amount_big && amount_big.gte(availableLiquidity)) {
-      setError("Not enough liquidity. Please try a lower amount.")
-    } else {
-      setError('')
-    }
     setAmount(value)
     e.preventDefault();
   };
@@ -71,12 +63,10 @@ const Actions = () => {
   const handleSubmit = (e: React.MouseEvent) => {
     const amount_big = new BigNumber(amount + `e+18`)
     const balance_big = new BigNumber(selectedToken?.balance || 0 + `e+18`)
-    if (amount_big.gte(availableLiquidity)) {
-      setError("Not enough liquidity. Please try a lower amount.")
-    } else if (!selectedToken) {
-      setError("Please select a token to unlock.")
+    if (!selectedToken) {
+      setError("Please select a token to farm.")
     } else if (!amount) {
-      setError("Please enter an amount to unlock.")
+      setError("Please enter an amount to farm.")
     } else if (balance_big.lt(amount_big)) {
       setError("Insufficient funds.")
     } else {
@@ -91,23 +81,21 @@ const Actions = () => {
     });
   };
 
-  const buildTransaction = (token: NftType, amount: string): Transaction => {
+  const buildTransaction = (token: TokenType, amount: string): Transaction => {
 
     const amount_big = amount + `e+${token.decimals}`
 
     const payload = TransactionPayload.contractCall()
-      .setFunction(new ContractFunction("ESDTNFTTransfer"))
+      .setFunction(new ContractFunction("ESDTTransfer"))
       .setArgs([
-        BytesValue.fromUTF8(token.collection),
-        new U64Value(new BigNumber(token.nonce)),
+        BytesValue.fromUTF8(token.identifier),
         new BigUIntValue(new BigNumber(amount_big)),
-        new AddressValue(new Address(contractAddress)),
-        BytesValue.fromUTF8("swap")
+        BytesValue.fromUTF8("deposit")
       ])
       .build();
 
     return new Transaction({
-      receiver: new Address(address),
+      receiver: new Address(contractAddress),
       gasLimit: new GasLimit(5000000),
       data: payload,
       chainID: chainId,
@@ -116,6 +104,7 @@ const Actions = () => {
   }
 
   let contract = new SmartContract({ address: new Address(contractAddress) });
+
   React.useEffect(() => {
     const fetchFee = async () => {
       let response = await contract.runQuery(dapp.proxy, {
@@ -126,20 +115,19 @@ const Actions = () => {
       let fee_int = new BigNumber('0x' + fee_bytes.toString("hex"))
       setFee(fee_int)
     }
-    const fetchLiquidity = async () => {
-      let response = await contract.runQuery(dapp.proxy, {
-        func: new ContractFunction("getLiquidityBalance"),
-        args: []
-      });
 
-      let liquidity_bytes = Buffer.from(response.returnData[0], 'base64')
-      let liquidity = new BigNumber('0x' + liquidity_bytes.toString("hex"))
-      setLiquidity(liquidity.isPositive() ? liquidity : new BigNumber(0))
+    const fetchBalance = async () => {
+      let response = await contract.runQuery(dapp.proxy, {
+        func: new ContractFunction("getBalance"),
+        args: [new AddressValue(new Address(address))]
+      });
+      let balance_bytes = Buffer.from(response.returnData[0], 'base64')
+      let balance_int = new BigNumber('0x' + balance_bytes.toString("hex"))
+      setBalance(balance_int)
     }
 
+    fetchBalance()
     fetchFee()
-
-    fetchLiquidity()
   }, [])
 
 
@@ -149,7 +137,7 @@ const Actions = () => {
       <div className="col-sm-6">
         <div className="card shadow-sm rounded p-4 mb-3">
           <div className="card-body">
-            <h5 className="card-title">Unlock MEX</h5>
+            <h5 className="card-title">Lock MEX <span className="badge badge-pill badge-secondary">New</span></h5>
 
 
             <div className="input-group mb-3">
@@ -158,7 +146,7 @@ const Actions = () => {
               </div>
               <select defaultValue={''} className="custom-select" id="token-select" onChange={handleTokenSelect}>
                 <option></option>
-                {nftBalance?.filter(t => t.collection === fromToken).map(t =>
+                {tokenBalance?.filter(t => t.identifier === toToken).map(t =>
                   <option key={t.identifier} value={t.identifier}>
                     {t.ticker} - Balance: {denominate({
                       input: t.balance || '',
@@ -179,22 +167,20 @@ const Actions = () => {
               <input type="number" inputMode="numeric" className="form-control" value={amount} onChange={handleAmountChange} id="amount-to-swap" />
             </div>
 
-
-
-
             <div className="mb-3 d-flex mt-4 justify-content-center error">
               {error}
             </div>
 
-            <a href="#" onClick={handleSubmit} className="btn btn-primary">Unlock</a>
+            <a href="#" onClick={handleSubmit} className="btn btn-primary">Lock</a>
 
-
-            <div className="mb-3 d-flex mt-4 justify-content-center">*{denominate({
-              input: fee?.toString() || '',
-              denomination: 2,
-              decimals: 2,
-              showLastNonZeroDecimal: true
-            })}% unlock fee will be deducted from sent MEX.</div>
+            {fee ?
+              <div className="mb-3 d-flex mt-4 justify-content-center">*Lock your MEX and receive a {denominate({
+                input: fee?.toString() || '',
+                denomination: 2,
+                decimals: 2,
+                showLastNonZeroDecimal: true
+              })}% reward.</div>
+              : ''}
 
           </div>
         </div>
@@ -204,41 +190,13 @@ const Actions = () => {
 
         <div className="card shadow-sm rounded p-4">
           <div className="card-body text-center">
-            <h2>Contract</h2>
-            <p>
-              <a
-                href={`${explorerAddress}/accounts/${contractAddress}`}
-                {...{
-                  target: "_blank",
-                }}
-                title="View in Explorer"
-              >
-                <Ui.Trim text={contractAddress} />
-              </a>
-            </p>
-
-            <h2 className="mb-3" data-testid="title">
-              Available Liquidity
-            </h2>
-            <h4>{denominate({
-              input: availableLiquidity?.toString() || '',
+            <h2>Rewards</h2>
+            Balance: {denominate({
+              input: balance?.toString() || '',
               denomination: 18,
-              decimals: 0,
-              showLastNonZeroDecimal: false
-            })} <MexIcon className="token-icon-large" />MEX</h4>
-
-            <h2 className="mb-3" data-testid="title">
-              Unlock Fee
-            </h2>
-            <h3>{denominate({
-              input: fee?.toString() || '',
-              denomination: 2,
               decimals: 2,
               showLastNonZeroDecimal: true
-            })}%</h3>
-
-
-
+            })} LKMEX
           </div>
         </div>
 

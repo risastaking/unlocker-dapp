@@ -16,6 +16,7 @@ export const contractAddress =
     "erd1qqqqqqqqqqqqqpgq4f5sdjnd5z3yz6ue34m3v3v6r20ksutw40rs83kejw";
 
 export const fromToken = "LKMEX-aab910"
+export const toToken = "MEX-455c57"
 
 export const network: Dapp.NetworkType = {
     id: "mainnet",
