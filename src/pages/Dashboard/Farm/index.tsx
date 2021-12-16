@@ -64,9 +64,9 @@ const Actions = () => {
     const amount_big = new BigNumber(amount + `e+18`)
     const balance_big = new BigNumber(selectedToken?.balance || 0 + `e+18`)
     if (!selectedToken) {
-      setError("Please select a token to farm.")
+      setError("Please select a token to deposit.")
     } else if (!amount) {
-      setError("Please enter an amount to farm.")
+      setError("Please enter an amount to deposit.")
     } else if (balance_big.lt(amount_big)) {
       setError("Insufficient funds.")
     } else {
