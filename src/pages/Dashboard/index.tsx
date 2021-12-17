@@ -95,14 +95,36 @@ const Dashboard = () => {
 
   return (
     <div className="container py-4" ref={ref}>
+
+
+
+
+
+
       <div className="row">
         <div className="col-12 col-md-10 mx-auto">
           <div className="card shadow-sm rounded border-0">
             <div className="card-body p-1">
               <div className="card rounded border-0">
                 <div className="card-body text-center p-4">
-                  <Actions />
-                  <Farm />
+                  <ul className="nav nav-tabs">
+                    <li className="nav-item">
+                      <button className="nav-link active" id="unlock-tab" data-bs-toggle="tab" data-bs-target="#unlock-mex-tab" type="button" role="tab" aria-controls="unlock-mex-tab" aria-selected="true">Unlock MEX</button>
+
+                    </li>
+                    <li className="nav-item">
+                      <button className="nav-link d-inline position-relative" id="lock-tab" data-bs-toggle="tab" data-bs-target="#lock-mex-tab" type="button"
+                        role="tab" aria-controls="lock-mex-tab" aria-selected="false">Lock MEX
+                        <span className="ms-1 badge rounded-pill bg-success align-text-top position-absolute top-0 start-100">New</span>
+                      </button>
+                    </li>
+                  </ul>
+                  <div className="tab-content">
+                    <div className="tab-pane fade show active" id="unlock-mex-tab" role="tabpanel" aria-labelledby="unlock-tab"><Actions /></div>
+                    <div className="tab-pane fade" id="lock-mex-tab" role="tabpanel" aria-labelledby="lock-tab"><Farm /></div>
+                  </div>
+
+
                 </div>
               </div>
               <Transactions />

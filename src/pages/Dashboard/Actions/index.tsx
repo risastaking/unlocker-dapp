@@ -151,12 +151,9 @@ const Actions = () => {
           <div className="card-body">
             <h5 className="card-title">Unlock MEX</h5>
 
-
             <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <label className="input-group-text" htmlFor="token-select">Token</label>
-              </div>
-              <select defaultValue={''} className="custom-select" id="token-select" onChange={handleTokenSelect}>
+              <label className="input-group-text" htmlFor="unlock-token-select">Token</label>
+              <select defaultValue={''} className="form-select" id="unlock-token-select" onChange={handleTokenSelect}>
                 <option></option>
                 {nftBalance?.filter(t => t.collection === fromToken).map(t =>
                   <option key={t.identifier} value={t.identifier}>
@@ -173,13 +170,9 @@ const Actions = () => {
 
 
             <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
-              </div>
+              <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
               <input type="number" inputMode="numeric" className="form-control" value={amount} onChange={handleAmountChange} id="amount-to-swap" />
             </div>
-
-
 
 
             <div className="mb-3 d-flex mt-4 justify-content-center error">

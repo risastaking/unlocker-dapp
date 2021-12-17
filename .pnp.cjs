@@ -58,7 +58,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.24.0"],
             ["bfj", "npm:7.0.2"],
             ["bignumber.js", "npm:9.0.1"],
-            ["bootstrap", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:4.6.1"],
+            ["bootstrap", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:5.1.3"],
             ["css-loader", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:4.3.0"],
             ["dotenv", "npm:8.6.0"],
             ["dotenv-expand", "npm:5.1.0"],
@@ -2864,7 +2864,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:0.24.0"],
             ["bfj", "npm:7.0.2"],
             ["bignumber.js", "npm:9.0.1"],
-            ["bootstrap", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:4.6.1"],
+            ["bootstrap", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:5.1.3"],
             ["css-loader", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:4.3.0"],
             ["dotenv", "npm:8.6.0"],
             ["dotenv-expand", "npm:5.1.0"],
@@ -4808,27 +4808,23 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["bootstrap", [
-        ["npm:4.6.1", {
-          "packageLocation": "./.yarn/cache/bootstrap-npm-4.6.1-d0eec6985a-ff44e13787.zip/node_modules/bootstrap/",
+        ["npm:5.1.3", {
+          "packageLocation": "./.yarn/cache/bootstrap-npm-5.1.3-691fdc19a6-301b5ed872.zip/node_modules/bootstrap/",
           "packageDependencies": [
-            ["bootstrap", "npm:4.6.1"]
+            ["bootstrap", "npm:5.1.3"]
           ],
           "linkType": "SOFT",
         }],
-        ["virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:4.6.1", {
-          "packageLocation": "./.yarn/__virtual__/bootstrap-virtual-f4f96c3378/0/cache/bootstrap-npm-4.6.1-d0eec6985a-ff44e13787.zip/node_modules/bootstrap/",
+        ["virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:5.1.3", {
+          "packageLocation": "./.yarn/__virtual__/bootstrap-virtual-743470c42c/0/cache/bootstrap-npm-5.1.3-691fdc19a6-301b5ed872.zip/node_modules/bootstrap/",
           "packageDependencies": [
-            ["bootstrap", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:4.6.1"],
-            ["@types/jquery", null],
-            ["@types/popper.js", null],
-            ["jquery", null],
-            ["popper.js", null]
+            ["bootstrap", "virtual:74b9b23741870c9945c9cd0292173686fc7facf59df3f5c91cc456181be5884267000cf03ca84bb665d93c2f47102cd62165254b3a337c0a1e41718ddda74683#npm:5.1.3"],
+            ["@popperjs/core", null],
+            ["@types/popperjs__core", null]
           ],
           "packagePeers": [
-            "@types/jquery",
-            "@types/popper.js",
-            "jquery",
-            "popper.js"
+            "@popperjs/core",
+            "@types/popperjs__core"
           ],
           "linkType": "HARD",
         }]

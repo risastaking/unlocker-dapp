@@ -13,9 +13,10 @@ code {
 }
 
 $body: #000;
-$headings-font-weight: 300 !important;
+$headings-font-weight: 300;
 $primary: #1b46c2;
 $light: #fafafa;
+$table-th-font-weight: 400;
 
 @import "bootstrap/scss/bootstrap.scss";
 @import '_dapp-utils.scss';
@@ -235,6 +236,7 @@ footer {
 
 
 .trim {
+  padding: 0 1rem;
   display: flex;
   max-width: 100%;
   overflow: hidden;

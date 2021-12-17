@@ -48,7 +48,7 @@ const TransactionList = ({
       <div className="table-responsive">
         <table className="transactions table pb-3">
           <thead>
-            <tr className="bg-light">
+            <tr>
               <th className="border-0 font-weight-normal"></th>
               {/* <th className="border-0 font-weight-normal">Tx hash</th> */}
               <th className="border-0 font-weight-normal">Date</th>

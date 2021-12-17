@@ -137,14 +137,12 @@ const Actions = () => {
       <div className="col-sm-6">
         <div className="card shadow-sm rounded p-4 mb-3">
           <div className="card-body">
-            <h5 className="card-title">Lock MEX <span className="badge badge-pill badge-secondary">New</span></h5>
+            <h5 className="card-title">Lock MEX</h5>
 
 
             <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <label className="input-group-text" htmlFor="token-select">Token</label>
-              </div>
-              <select defaultValue={''} className="custom-select" id="token-select" onChange={handleTokenSelect}>
+              <label className="input-group-text" htmlFor="lock-token-select">Token</label>
+              <select defaultValue={''} className="form-select" id="lock-token-select" onChange={handleTokenSelect}>
                 <option></option>
                 {tokenBalance?.filter(t => t.identifier === toToken).map(t =>
                   <option key={t.identifier} value={t.identifier}>
@@ -161,9 +159,7 @@ const Actions = () => {
 
 
             <div className="input-group mb-3">
-              <div className="input-group-prepend">
-                <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
-              </div>
+              <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
               <input type="number" inputMode="numeric" className="form-control" value={amount} onChange={handleAmountChange} id="amount-to-swap" />
             </div>
 
