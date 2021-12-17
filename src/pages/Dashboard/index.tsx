@@ -115,7 +115,7 @@ const Dashboard = () => {
                     <li className="nav-item">
                       <button className="nav-link d-inline position-relative" id="lock-tab" data-bs-toggle="tab" data-bs-target="#lock-mex-tab" type="button"
                         role="tab" aria-controls="lock-mex-tab" aria-selected="false">Lock MEX
-                        <span className="ms-1 badge rounded-pill bg-success align-text-top position-absolute top-0 start-100">New</span>
+                        <span className="ms-1 badge rounded-pill bg-success align-text-top position-absolute top-0 start-100">Beta</span>
                       </button>
                     </li>
                   </ul>

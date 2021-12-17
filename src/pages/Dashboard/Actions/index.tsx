@@ -92,9 +92,7 @@ const Actions = () => {
   };
 
   const buildTransaction = (token: NftType, amount: string): Transaction => {
-
     const amount_big = amount + `e+${token.decimals}`
-
     const payload = TransactionPayload.contractCall()
       .setFunction(new ContractFunction("ESDTNFTTransfer"))
       .setArgs([
@@ -152,7 +150,10 @@ const Actions = () => {
             <h5 className="card-title">Unlock MEX</h5>
 
             <div className="input-group mb-3">
-              <label className="input-group-text" htmlFor="unlock-token-select">Token</label>
+              <label className="input-group-text" htmlFor="unlock-token-select">
+                <img src={`https://media.elrond.com/tokens/asset/${fromToken}/logo.svg`} alt="LockedMEX" className="token-icon me-2" />
+                LKMEX
+              </label>
               <select defaultValue={''} className="form-select" id="unlock-token-select" onChange={handleTokenSelect}>
                 <option></option>
                 {nftBalance?.filter(t => t.collection === fromToken).map(t =>
@@ -197,18 +198,6 @@ const Actions = () => {
 
         <div className="card shadow-sm rounded p-4">
           <div className="card-body text-center">
-            <h2>Contract</h2>
-            <p>
-              <a
-                href={`${explorerAddress}/accounts/${contractAddress}`}
-                {...{
-                  target: "_blank",
-                }}
-                title="View in Explorer"
-              >
-                <Ui.Trim text={contractAddress} />
-              </a>
-            </p>
 
             <h2 className="mb-3" data-testid="title">
               Available Liquidity

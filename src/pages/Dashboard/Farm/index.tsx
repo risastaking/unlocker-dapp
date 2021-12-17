@@ -25,6 +25,7 @@ import { TokenType } from "components/NftBlock";
 
 import MexIcon from "../../../assets/img/mex.svg"
 import { Ui } from "@elrondnetwork/dapp-utils";
+import Harvest from "./Harvest";
 
 const BIG_ZERO = new BigNumber(0).precision(18)
 
@@ -64,7 +65,7 @@ const Actions = () => {
   const handleSubmit = (e: React.MouseEvent) => {
     const amount_big = new BigNumber(amount + `e+18`)
     const balance_big = new BigNumber(selectedToken?.balance || 0 + `e+18`)
-    debugger
+
     if (!selectedToken) {
       setError("Please select a token to deposit.")
     } else if (!amount) {
@@ -86,9 +87,7 @@ const Actions = () => {
   };
 
   const buildTransaction = (token: TokenType, amount: string): Transaction => {
-
     const amount_big = amount + `e+${token.decimals}`
-
     const payload = TransactionPayload.contractCall()
       .setFunction(new ContractFunction("ESDTTransfer"))
       .setArgs([
@@ -120,17 +119,6 @@ const Actions = () => {
       setFee(fee_int)
     }
 
-    const fetchBalance = async () => {
-      let response = await contract.runQuery(dapp.proxy, {
-        func: new ContractFunction("getBalance"),
-        args: [new AddressValue(new Address(address))]
-      });
-      let balance_bytes = Buffer.from(response.returnData[0], 'base64')
-      let balance_int = new BigNumber('0x' + balance_bytes.toString("hex"))
-      setBalance(balance_int)
-    }
-
-    fetchBalance()
     fetchFee()
   }, [])
 
@@ -145,12 +133,15 @@ const Actions = () => {
 
 
             <div className="input-group mb-3">
-              <label className="input-group-text" htmlFor="lock-token-select">Token</label>
+              <label className="input-group-text" htmlFor="lock-token-select">
+                <img src={`https://media.elrond.com/tokens/asset/${toToken}/logo.svg`} alt="MEX" className="token-icon me-2" />
+                MEX
+              </label>
               <select defaultValue={''} className="form-select" id="lock-token-select" onChange={handleTokenSelect}>
                 <option></option>
                 {tokenBalance?.filter(t => t.identifier === toToken).map(t =>
                   <option key={t.identifier} value={t.identifier}>
-                    {t.ticker} - Balance: {denominate({
+                    Balance: {denominate({
                       input: t.balance || '',
                       denomination: t.decimals || 0,
                       decimals: 2,
@@ -163,23 +154,24 @@ const Actions = () => {
 
 
             <div className="input-group mb-3">
-              <label className="input-group-text" htmlFor="amount-to-swap">Amount</label>
-              <input type="number" inputMode="numeric" className="form-control" value={amount} onChange={handleAmountChange} id="amount-to-swap" />
+              <label className="input-group-text" htmlFor="amount-to-deposit">Amount</label>
+              <input type="number" inputMode="numeric" className="form-control" value={amount}
+                onChange={handleAmountChange} id="amount-to-deposit" />
             </div>
 
             <div className="mb-3 d-flex mt-4 justify-content-center error">
               {error}
             </div>
 
-            <a href="#" onClick={handleSubmit} className="btn btn-primary">Lock</a>
+            <a href="#" onClick={handleSubmit} className="btn btn-primary">Stake</a>
 
             {fee ?
-              <div className="mb-3 d-flex mt-4 justify-content-center">*Lock your MEX and receive a {denominate({
+              <div className="mb-3 d-flex mt-4 justify-content-center">*Lock your MEX and harvest as LKMEX + {denominate({
                 input: fee?.toString() || '',
                 denomination: 2,
                 decimals: 2,
                 showLastNonZeroDecimal: true
-              })}% reward.</div>
+              })}% rewards.</div>
               : ''}
 
           </div>
@@ -188,17 +180,7 @@ const Actions = () => {
       <div className="col-sm-6">
 
 
-        <div className="card shadow-sm rounded p-4">
-          <div className="card-body text-center">
-            <h2>Rewards</h2>
-            Balance: {denominate({
-              input: balance?.toString() || '',
-              denomination: 18,
-              decimals: 2,
-              showLastNonZeroDecimal: true
-            })} LKMEX
-          </div>
-        </div>
+        <Harvest></Harvest>
 
 
       </div>
