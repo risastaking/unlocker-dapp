@@ -41,16 +41,15 @@ const Harvest = () => {
     const [error, setError] = useState<string>('');
 
     const handleMax = (e: SyntheticEvent<HTMLButtonElement, Event>) => {
-        e.preventDefault();
-
         const amt = denominate({
             input: balance?.dp(0).toFixed() || '',
             denomination: 18,
             decimals: 2,
-            showLastNonZeroDecimal: false
+            showLastNonZeroDecimal: false,
+            addCommas: false
         })
-
         setAmount(amt)
+        e.preventDefault();
     };
 
 
@@ -139,7 +138,7 @@ const Harvest = () => {
 
         fetchContractTokenBalance()
         fetchBalance()
-    }, [selectedToken])
+    }, [])
 
 
     return (
@@ -154,7 +153,7 @@ const Harvest = () => {
                 <h4>{denominate({
                     input: balance?.dp(0).toFixed() || '',
                     denomination: 18,
-                    decimals: 0,
+                    decimals: 2,
                     showLastNonZeroDecimal: false
                 })} <LKMexIcon className="token-icon-large" />LKMEX</h4>
 
