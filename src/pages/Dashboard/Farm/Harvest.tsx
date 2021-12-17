@@ -44,7 +44,7 @@ const Harvest = () => {
         e.preventDefault();
 
         const amt = denominate({
-            input: balance?.toString() || '',
+            input: balance?.dp(0).toFixed() || '',
             denomination: 18,
             decimals: 2,
             showLastNonZeroDecimal: false
