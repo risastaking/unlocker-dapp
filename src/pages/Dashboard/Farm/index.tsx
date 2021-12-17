@@ -57,18 +57,22 @@ const Actions = () => {
   const handleAmountChange = (e: SyntheticEvent<HTMLInputElement, Event>) => {
     const value = e.currentTarget.value
     setAmount(value)
+    setError('')
     e.preventDefault();
   };
 
   const handleSubmit = (e: React.MouseEvent) => {
     const amount_big = new BigNumber(amount + `e+18`)
     const balance_big = new BigNumber(selectedToken?.balance || 0 + `e+18`)
+    debugger
     if (!selectedToken) {
       setError("Please select a token to deposit.")
     } else if (!amount) {
       setError("Please enter an amount to deposit.")
     } else if (balance_big.lt(amount_big)) {
       setError("Insufficient funds.")
+    } else if (amount_big.eq(0)) {
+      setError("Amount must be greater than 0.")
     } else {
       send(buildTransaction(selectedToken, amount))
     }
