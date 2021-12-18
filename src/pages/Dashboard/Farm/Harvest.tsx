@@ -27,6 +27,7 @@ import { NftType, TokenType } from "components/NftBlock";
 import LKMexIcon from "../../../assets/img/lkmex.svg"
 import { Ui } from "@elrondnetwork/dapp-utils";
 import axios from "axios";
+import { sortNftAmounts } from "../../../helpers";
 
 
 const BIG_ZERO = new BigNumber(0).precision(18)
@@ -172,35 +173,19 @@ const Harvest = () => {
                         Harvest From
                     </label>
                     <select defaultValue={''} className="form-select" id="harvest-token-select" onChange={handleTokenSelect}>
+                        <option></option>
                         {contractTokenBalance?.filter(t => t.collection === fromToken)
-                        .sort((a,b) => {
-                            let first = new BigNumber(denominate({
-                                input: a.balance || '',
-                                denomination: a.decimals || 0,
-                                decimals: 18,
-                                showLastNonZeroDecimal: false,
-                                addCommas: false
-                            }))
-                            let second = new BigNumber(denominate({
-                                input: b.balance || '',
-                                denomination: b.decimals || 0,
-                                decimals: 18,
-                                showLastNonZeroDecimal: false,
-                                addCommas: false
-                            }))
-                            debugger
-                            return first.gt(second) ? -1 : first.lt(second) ? 1 : 0
-                        })
-                        .map(t =>
-                            <option key={t.identifier} value={t.identifier}>
-                                {t.ticker} Pool: {denominate({
-                                    input: t.balance || '',
-                                    denomination: t.decimals || 0,
-                                    decimals: 2,
-                                    showLastNonZeroDecimal: false
-                                })}
-                            </option>
-                        )}
+                            .sort(sortNftAmounts)
+                            .map(t =>
+                                <option key={t.identifier} value={t.identifier}>
+                                    {t.ticker} Pool: {denominate({
+                                        input: t.balance || '',
+                                        denomination: t.decimals || 0,
+                                        decimals: 2,
+                                        showLastNonZeroDecimal: false
+                                    })}
+                                </option>
+                            )}
                     </select>
                 </div>
 

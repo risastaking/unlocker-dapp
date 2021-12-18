@@ -24,6 +24,7 @@ import { NftType } from "components/NftBlock";
 
 import MexIcon from "../../../assets/img/mex.svg"
 import { Ui } from "@elrondnetwork/dapp-utils";
+import { sortNftAmounts } from "../../../helpers";
 
 const FEE_BASIS = new BigNumber(10000)
 const BIG_ZERO = new BigNumber(0).precision(18)
@@ -156,16 +157,17 @@ const Actions = () => {
               </label>
               <select defaultValue={''} className="form-select" id="unlock-token-select" onChange={handleTokenSelect}>
                 <option></option>
-                {nftBalance?.filter(t => t.collection === fromToken).map(t =>
-                  <option key={t.identifier} value={t.identifier}>
-                    {t.ticker} - Balance: {denominate({
-                      input: t.balance || '',
-                      denomination: t.decimals || 0,
-                      decimals: 2,
-                      showLastNonZeroDecimal: false
-                    })}
-                  </option>
-                )}
+                {nftBalance?.sort(sortNftAmounts)
+                  .filter(t => t.collection === fromToken).map(t =>
+                    <option key={t.identifier} value={t.identifier}>
+                      Balance: {denominate({
+                        input: t.balance || '',
+                        denomination: t.decimals || 0,
+                        decimals: 2,
+                        showLastNonZeroDecimal: false
+                      })}
+                    </option>
+                  )}
               </select>
             </div>
 
