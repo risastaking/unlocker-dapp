@@ -20,13 +20,13 @@ export class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       // You can render any custom fallback UI
-      return <>
-        <h5>We're sorry, but something went wrong.</h5>
+      return <div style={{padding: '20px'}}>
+        <h5>☹ We're sorry, but something went wrong.</h5>
         <p>
           If you continue to have issues, please reach out
           to us on twitter <a href="https://twitter.com/risasoftstaking">@risasoftstaking</a>
         </p>
-      </>
+      </div>
     }
 
     return this.props.children;

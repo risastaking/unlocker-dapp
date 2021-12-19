@@ -8,9 +8,24 @@ import { ContextProvider } from "./context";
 import routes, { routeNames } from "./routes";
 import "./assets/sass/theme.scss"
 import { ErrorBoundary } from "./components/ErrorBoundary";
-
+import * as Sentry from "@sentry/browser";
+import { Integrations } from "@sentry/tracing";
 
 export default function App() {
+
+  Sentry.init({
+    dsn: "https://dcadc22622894abe97caaa120e024187@o1093646.ingest.sentry.io/6112994",
+    integrations: [new Integrations.BrowserTracing()],
+    tracesSampleRate: 1.0,
+    beforeSend(event, hint) {
+      // Check if it is an exception, and if so, show the report dialog
+      if (event.exception) {
+        Sentry.showReportDialog({ eventId: event.event_id });
+      }
+      return event;
+    },
+  });
+
   return (
     <Dapp.Context config={config}>
       <ErrorBoundary>

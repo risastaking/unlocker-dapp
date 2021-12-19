@@ -38,6 +38,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@parcel/config-default": "^2.0.1",
+    "@sentry/browser": "^6.16.1",
+    "@sentry/tracing": "^6.16.1",
     "@walletconnect/encoding": "^1.0.0",
     "axios": "0.24.0",
     "bfj": "^7.0.2",
