@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@elrondnetwork/dapp": "0.0.75",
-    "@elrondnetwork/dapp-utils": "0.0.14",
+    "@elrondnetwork/dapp-utils": "0.0.15",
     "@elrondnetwork/erdjs": "8.0.1-alpha.13",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",

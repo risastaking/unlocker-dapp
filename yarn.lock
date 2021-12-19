@@ -496,9 +496,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@elrondnetwork/dapp-utils@npm:0.0.14":
-  version: 0.0.14
-  resolution: "@elrondnetwork/dapp-utils@npm:0.0.14"
+"@elrondnetwork/dapp-utils@npm:0.0.15":
+  version: 0.0.15
+  resolution: "@elrondnetwork/dapp-utils@npm:0.0.15"
   dependencies:
     "@fortawesome/fontawesome-svg-core": 1.2.35
     "@fortawesome/free-solid-svg-icons": 5.15.3
@@ -516,7 +516,7 @@ __metadata:
     react: 17.0.2
     react-bootstrap: 1.5.2
     react-router-dom: 5.2.0
-  checksum: f6aa57b7c1c972e0ee065949c0a1396dcba874693d9f87872e7705d2b277b43eed840708fdc9de249f096f2a5f5e6da6c0b7a93c8902a8da6bac9e8bbef4fb7f
+  checksum: b803451d0733a867a5d653c6f5ac64ed97445e196f563c0eaa21ed36508472fe38cb72a99f89d121d227fa44c065f04e58c9b5d54eb50598bdb75869458d2bd2
   languageName: node
   linkType: hard
 
@@ -2120,7 +2120,7 @@ __metadata:
   resolution: "@risasoft/mex-unlocker@workspace:."
   dependencies:
     "@elrondnetwork/dapp": 0.0.75
-    "@elrondnetwork/dapp-utils": 0.0.14
+    "@elrondnetwork/dapp-utils": 0.0.15
     "@elrondnetwork/erdjs": 8.0.1-alpha.13
     "@fortawesome/fontawesome-svg-core": ^1.2.36
     "@fortawesome/free-solid-svg-icons": ^5.15.4
