@@ -157,8 +157,9 @@ const Actions = () => {
               </label>
               <select defaultValue={''} className="form-select" id="unlock-token-select" onChange={handleTokenSelect}>
                 <option></option>
-                {nftBalance?.sort(sortNftAmounts)
-                  .filter(t => t.collection === fromToken).map(t =>
+                {nftBalance?.filter(t => t.collection === fromToken)
+                  .sort(sortNftAmounts)
+                  .map(t =>
                     <option key={t.identifier} value={t.identifier}>
                       Balance: {denominate({
                         input: t.balance || '',

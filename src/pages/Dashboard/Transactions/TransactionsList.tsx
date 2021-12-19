@@ -40,7 +40,7 @@ const TransactionList = ({
       ...transactions,
       //...(doubleOwnTransactions.length > 0 ? doubleOwnTransactions : []),
     ].filter((el: any) => el !== undefined) as any
-  ).sort(sortByDate);
+  )?.sort(sortByDate);
 
   return (
     <div className="p-3 mt-3">
