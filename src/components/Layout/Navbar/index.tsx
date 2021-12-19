@@ -5,6 +5,9 @@ import { Link, useHistory } from "react-router-dom";
 import LKMexIcon from "../../../assets/img/lkmex.svg"
 import { dAppName } from "../../../config";
 import Trim from "../../../components/Trim";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const { loggedIn, address, explorerAddress } = Dapp.useContext();
@@ -21,47 +24,52 @@ const Navbar = () => {
 
     <nav className="navbar navbar-expand-lg navbar-light bg-white border-bottom px-4 py-3">
       <Link
-        className="navbar-brand mr-auto"
+        className="navbar-brand"
         to={loggedIn ? "/dashboard" : "/"}
       >
         <LKMexIcon className="token-icon-large" />
         <span className="navbar-text dapp-name">{dAppName}</span>
       </Link>
 
+      <div className="container d-none d-md-block"></div>
 
-      <div className="container-fluid ml-auto"></div>
-
-      {loggedIn && (
-        <NavItem className="navbar-address mr-3">
-          <span className="text-muted">
-            <a
-              href={`${explorerAddress}/accounts/${address}`}
-              {...{
-                target: "_blank",
-              }}
-              title="View in Explorer"
-            >
-              <Trim text={address} />
-            </a>
-
-          </span>
+      {!loggedIn && (
+        <NavItem >
+          <Link
+            className="btn btn-primary px-sm-4 m-1 mx-sm-3"
+            to="walletconnect"
+          >
+            Connect
+          </Link>
         </NavItem>
 
       )}
 
-      <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+      {loggedIn && (
+        <span className="navbar-address text-muted">
+          <a
+            href={`${explorerAddress}/accounts/${address}`}
+            {...{
+              target: "_blank",
+            }}
+            title="View in Explorer"
+          >
+            <Trim text={address} />
+          </a>
+
+        </span>
+      )}
+
+      {/* <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
         aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
-      </button>
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        {loggedIn && (
-          <a href="/" onClick={logOut}>
-            <button type="button" className="btn btn-outline-primary">Logout</button>
-          </a>
-        )}
-      </div>
+      </button> */}
+      {loggedIn && (
+        <a href="/" onClick={logOut}>
+          <button type="button" className="btn btn-outline-primary">Logout</button>
+        </a>
+      )}
     </nav>
   );
 };

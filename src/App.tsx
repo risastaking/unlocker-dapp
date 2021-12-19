@@ -1,6 +1,6 @@
 import React from "react";
 import * as Dapp from "@elrondnetwork/dapp";
-import { Route, Switch } from "react-router-dom";
+import { Link, Route, Switch } from "react-router-dom";
 import Layout from "./components/Layout";
 import PageNotFoud from "./components/PageNotFoud";
 import * as config from "./config";
@@ -24,6 +24,7 @@ export default function App() {
                   lead="Please select your login method:"
                   ledgerRoute={routeNames.ledger}
                   walletConnectRoute={routeNames.walletconnect}
+
                 />
               )}
               exact={true}

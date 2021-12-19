@@ -84,8 +84,9 @@ const Home = () => {
               </h2>
               <p className="mb-3">
                 Unlock your MEX. Unlock your future 😲
-                <br /> Login using your Elrond wallet.
               </p>
+
+              {/* TODO: other login methods
 
               <Link
                 to={routeNames.unlock}
@@ -93,6 +94,18 @@ const Home = () => {
                 data-testid="loginBtn"
               >
                 Login
+              </Link> */}
+
+              <p className="mb-3">
+                Connect to a wallet:
+              </p>
+
+              <Link
+                className="btn btn-primary px-sm-4 m-1 mx-sm-3"
+                to="walletconnect"
+                data-testid="walletConnectLink"
+              >
+                Maiar App
               </Link>
             </div>
           </div>
