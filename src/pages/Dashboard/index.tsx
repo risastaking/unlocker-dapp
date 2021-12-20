@@ -9,6 +9,7 @@ import Actions from "./Actions";
 import Farm from "./Farm";
 import { getNftBalance, getTransaction, getTransactions, getTokenBalance } from "./helpers/asyncRequests";
 import Transactions from "./Transactions";
+import { ErrorBoundaryIgnored } from "../../components/ErrorBoundaryIgnored";
 
 const Dashboard = () => {
   const ref = React.useRef(null);
@@ -38,8 +39,8 @@ const Dashboard = () => {
         }).then(({ data, success }) => {
           dispatch({
             type: "setTransactionOperations",
-            operations: data.operations,
-            txHash: data.txHash,
+            operations: data?.operations,
+            txHash: data?.txHash,
             transactionsFetched: success,
           });
         });
@@ -96,11 +97,6 @@ const Dashboard = () => {
   return (
     <div className="container py-4" ref={ref}>
 
-
-
-
-
-
       <div className="row">
         <div className="col-12 col-md-10 mx-auto">
           <div className="card shadow-sm rounded border-0">
@@ -127,7 +123,9 @@ const Dashboard = () => {
 
                 </div>
               </div>
-              <Transactions />
+              <ErrorBoundaryIgnored>
+                <Transactions />
+              </ErrorBoundaryIgnored>
             </div>
           </div>
         </div>

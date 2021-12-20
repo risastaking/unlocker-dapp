@@ -31,8 +31,7 @@ const TransactionList = ({
     sender === address && sender !== fakeSender;
 
   // eslint-disable-next-line
-  const doubleOwnTransactions = transactions
-    .filter((tx) => tx.sender === tx.receiver && tx.blockHash !== "")
+  const doubleOwnTransactions = transactions?.filter((tx) => tx.sender === tx.receiver && tx.blockHash !== "")
     .map((tx) => ({ ...tx, sender: fakeSender, timestamp: tx.timestamp + 1 }));
 
   const sortedTransactions: TransactionType[] = (
@@ -56,7 +55,7 @@ const TransactionList = ({
             </tr>
           </thead>
           <tbody data-testid="transactionsList">
-            {sortedTransactions.map((tx: TransactionType, i) => {
+            {sortedTransactions?.map((tx: TransactionType, i) => {
               const incomingTransaction = incoming(tx.sender);
               return (
                 <tr key={tx.txHash + i}>

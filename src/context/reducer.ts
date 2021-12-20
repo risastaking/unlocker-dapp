@@ -21,16 +21,19 @@ export function reducer(state: StateType, action: ActionType): StateType {
       return newState;
     }
     case "setTransactionOperations": {
-      let found = state.transactions.findIndex(
+      let found = state.transactions?.findIndex(
         (t) => t.txHash === action.txHash
       );
-      state.transactions[found].operations = action.operations;
-      const newState: StateType = {
-        ...state,
-        transactions: state.transactions,
-        transactionsFetched: action.transactionsFetched,
-      };
-      return newState;
+      if (found) {
+        state.transactions[found].operations = action.operations;
+        const newState: StateType = {
+          ...state,
+          transactions: state.transactions,
+          transactionsFetched: action.transactionsFetched,
+        };
+        return newState;
+      }
+      return state;
     }
     case "setNftBalance": {
       const newState: StateType = {
