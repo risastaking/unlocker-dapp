@@ -29,21 +29,23 @@ const Dashboard = () => {
         transactions: data,
         transactionsFetched: undefined,
       });
-      for (const t of data) {
-        getTransaction({
-          apiAddress,
-          address,
-          contractAddress,
-          timeout: 3000,
-          txHash: t.txHash,
-        }).then(({ data, success }) => {
-          dispatch({
-            type: "setTransactionOperations",
-            operations: data?.operations,
-            txHash: data?.txHash,
-            transactionsFetched: success,
+      if (success && data?.length > 0) {
+        for (const t of data) {
+          getTransaction({
+            apiAddress,
+            address,
+            contractAddress,
+            timeout: 3000,
+            txHash: t.txHash,
+          }).then(({ data, success }) => {
+            dispatch({
+              type: "setTransactionOperations",
+              operations: data?.operations,
+              txHash: data?.txHash,
+              transactionsFetched: success,
+            });
           });
-        });
+        }
       }
     });
 
